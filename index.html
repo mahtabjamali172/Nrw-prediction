@@ -4,20 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NRW PREDICTION MASTER</title>
+    
     <style>
         :root {
-            --primary: #D4AF37;
-            --primary-dark: #B8860B;
-            --primary-light: #F4D03F;
-            --dark-bg: #050505;
-            --card-bg: #0a0a0a;
-            --surface: #111111;
-            --surface-raised: #1a1a1a;
+            --primary: #daa520;
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
             --text-main: #ffffff;
-            --text-muted: #A09060;
-            --danger: #DAA520;
-            --gold-glow: rgba(212, 175, 55, 0.4);
-            --gold-glow-strong: rgba(212, 175, 55, 0.8);
+            --text-muted: #b0b0b0;
+            --danger: #ff5252;
         }
 
         * {
@@ -34,29 +29,6 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            overflow: hidden;
-        }
-
-        /* Animated background particles */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(212,175,55,0.03) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(212,175,55,0.03) 0%, transparent 50%),
-                radial-gradient(circle at 50% 50%, rgba(184,134,11,0.02) 0%, transparent 60%);
-            pointer-events: none;
-            z-index: 0;
-            animation: bgShift 15s ease-in-out infinite alternate;
-        }
-
-        @keyframes bgShift {
-            0% { opacity: 0.5; transform: scale(1); }
-            100% { opacity: 1; transform: scale(1.1); }
         }
 
         /* --- Container --- */
@@ -68,19 +40,15 @@
             display: flex;
             flex-direction: column;
             position: relative;
-            box-shadow: 0 0 40px rgba(212,175,55,0.15);
-            border: 1px solid rgba(212,175,55,0.1);
-            z-index: 1;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
 
         @media (min-width: 500px) {
             .app-container {
                 min-height: auto;
                 height: 90vh;
-                border-radius: 20px;
+                border-radius: 15px;
                 overflow: hidden;
-                border: 1px solid rgba(212,175,55,0.2);
-                box-shadow: 0 0 60px rgba(212,175,55,0.2), 0 0 120px rgba(212,175,55,0.05);
             }
         }
 
@@ -88,7 +56,7 @@
         .splash-screen {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(ellipse at center, #0a0600 0%, #050505 50%, #000000 100%);
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #0f0f0f 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -101,95 +69,87 @@
             visibility: hidden;
             pointer-events: none;
         }
-        .splash-logo {
-            width: 130px;
-            height: 130px;
+        .login-anim-circle {
+            width: 80px;
+            height: 80px;
+            border: 3px solid rgba(218, 165, 32, 0.3);
+            border-top: 3px solid var(--primary);
             border-radius: 50%;
-            border: 3px solid rgba(212, 175, 55, 0.3);
-            padding: 8px;
-            animation: loginSpin 8s linear infinite, logoGlow 2s ease-in-out infinite alternate;
-            margin-bottom: 25px;
-            object-fit: contain;
-            background: #000000;
-            box-shadow: 0 0 30px rgba(212,175,55,0.2);
+            animation: loginSpin 1s linear infinite, loginPulse 1.5s ease-in-out infinite;
+            margin-bottom: 20px;
         }
         @keyframes loginSpin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        @keyframes logoGlow {
-            0% { box-shadow: 0 0 20px rgba(212,175,55,0.3), 0 0 40px rgba(212,175,55,0.1); border-color: rgba(212,175,55,0.3); }
-            100% { box-shadow: 0 0 40px rgba(212,175,55,0.6), 0 0 80px rgba(212,175,55,0.2); border-color: rgba(212,175,55,0.6); }
+        @keyframes loginPulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(218, 165, 32, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(218, 165, 32, 0.7); }
         }
         .splash-text {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             color: var(--text-muted);
-            animation: fadeInUp 1.2s ease forwards, textGoldShimmer 3s linear infinite;
+            animation: fadeInUp 1s ease forwards;
             opacity: 0;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            font-weight: 300;
         }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes textGoldShimmer {
-            0%, 100% { text-shadow: 0 0 5px rgba(212,175,55,0.3); color: var(--text-muted); }
-            50% { text-shadow: 0 0 20px rgba(212,175,55,0.6), 0 0 40px rgba(212,175,55,0.2); color: var(--primary-light); }
-        }
 
-        /* --- Header with Glow --- */
-        header {
-            padding: 18px 20px;
-            text-align: center;
-            background: linear-gradient(180deg, #0a0800 0%, #111111 100%);
-            border-bottom: 2px solid rgba(212,175,55,0.3);
+        /* --- Logo & Header with Glow --- */
+        .logo-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
-            position: relative;
-            overflow: hidden;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 5px;
         }
-        header::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent 0%, var(--primary) 50%, transparent 100%);
-            animation: borderGlow 3s ease-in-out infinite;
-        }
-        @keyframes borderGlow {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-        .header-logo {
-            width: 55px;
-            height: 55px;
+        #app-logo {
+            width: 70px;
+            height: 70px;
             border-radius: 50%;
-            object-fit: contain;
-            border: 2px solid rgba(212, 175, 55, 0.4);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-            animation: logoPulse 2.5s ease-in-out infinite;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.4);
+            background: #1a1a1a;
+            display: none; /* shown if loads successfully */
         }
-        @keyframes logoPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 15px rgba(212,175,55,0.3); }
-            50% { transform: scale(1.05); box-shadow: 0 0 25px rgba(212,175,55,0.5); }
+        #app-logo.show {
+            display: block;
+        }
+        .css-logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            border: 3px solid var(--primary);
+            box-shadow: 0 0 15px rgba(218, 165, 32, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary);
+            letter-spacing: 1px;
+        }
+        header {
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(45deg, #000000, #2a2a2a);
+            border-bottom: 2px solid var(--primary);
         }
         header h1 {
             font-size: 1.3rem;
             color: var(--primary);
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             animation: nameGlow 3s ease-in-out infinite alternate;
-            font-weight: 600;
         }
         @keyframes nameGlow {
-            0% { text-shadow: 0 0 5px rgba(212,175,55,0.4), 0 0 10px rgba(212,175,55,0.2); }
-            100% { text-shadow: 0 0 20px rgba(212,175,55,0.9), 0 0 40px rgba(212,175,55,0.5), 0 0 60px rgba(212,175,55,0.3); }
+            0% { text-shadow: 0 0 5px rgba(218, 165, 32, 0.4), 0 0 10px rgba(218, 165, 32, 0.2); }
+            100% { text-shadow: 0 0 20px rgba(218, 165, 32, 0.9), 0 0 40px rgba(218, 165, 32, 0.5), 0 0 60px rgba(218, 165, 32, 0.3); }
         }
 
         /* --- Screens Management --- */
@@ -202,18 +162,17 @@
         }
         .screen.active {
             display: flex;
-            animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: fadeIn 0.3s ease;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px) scale(0.98); }
-            to { opacity: 1; transform: translateY(0) scale(1); }
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* --- User Screen: Only feed scrolls, not whole page --- */
         #user-screen {
             overflow: hidden;
             padding: 0;
-            background: linear-gradient(180deg, #050505 0%, #0a0600 100%);
         }
         #user-screen > *:not(#signals-feed) {
             flex-shrink: 0;
@@ -235,202 +194,117 @@
         #signals-feed::-webkit-scrollbar {
             width: 4px;
         }
-        #signals-feed::-webkit-scrollbar-track {
-            background: #111;
-        }
         #signals-feed::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--primary-dark), var(--primary));
+            background: #444;
             border-radius: 4px;
         }
 
         /* --- Forms & Inputs --- */
-        .form-group { margin-bottom: 22px; }
+        .form-group { margin-bottom: 20px; }
         label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             color: var(--text-muted);
             font-size: 0.9rem;
-            letter-spacing: 0.5px;
         }
         input, select, textarea {
             width: 100%;
-            padding: 14px;
-            background-color: #111111;
-            border: 1px solid rgba(212,175,55,0.2);
+            padding: 12px;
+            background-color: #2c2c2c;
+            border: 1px solid #444;
             color: white;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 1rem;
             outline: none;
-            transition: all 0.3s ease;
         }
-        input:focus, select:focus, textarea:focus { 
-            border-color: var(--primary); 
-            box-shadow: 0 0 15px rgba(212,175,55,0.15);
-            background-color: #151515;
-        }
-        input::placeholder { color: #555; }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); }
         button {
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 12px;
+            background-color: var(--primary);
             color: #000;
             border: none;
-            border-radius: 10px;
+            border-radius: 8px;
             font-weight: bold;
             font-size: 1rem;
             cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            letter-spacing: 0.5px;
+            transition: transform 0.1s, opacity 0.2s;
         }
-        button::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transform: rotate(30deg);
-            transition: all 0.6s;
-            opacity: 0;
-        }
-        button:hover::after {
-            opacity: 1;
-            left: 100%;
-        }
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(212,175,55,0.3);
-        }
-        button:active { transform: scale(0.98) translateY(0); }
-        button.secondary { 
-            background: linear-gradient(135deg, #2a2a2a, #1a1a1a); 
-            color: var(--primary); 
-            margin-top: 12px;
-            border: 1px solid rgba(212,175,55,0.2);
-        }
-        button.secondary:hover {
-            box-shadow: 0 4px 15px rgba(212,175,55,0.15);
-            border-color: rgba(212,175,55,0.4);
-        }
-        button.danger { 
-            background: linear-gradient(135deg, #DAA520, #B8860B); 
-            color: #000; 
-        }
-        button.danger:hover {
-            box-shadow: 0 8px 25px rgba(218,165,32,0.3);
-        }
+        button:active { transform: scale(0.98); }
+        button.secondary { background-color: #444; color: white; margin-top: 10px; }
+        button.danger { background-color: var(--danger); color: white; }
 
         /* --- Cards & Lists --- */
         .card {
-            background: linear-gradient(135deg, #111111, #0a0a0a);
-            padding: 18px;
-            border-radius: 12px;
-            margin-bottom: 18px;
-            border: 1px solid rgba(212,175,55,0.15);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
+            background-color: #2c2c2c;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary);
         }
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            opacity: 0.5;
-        }
-        .card:hover {
-            border-color: rgba(212,175,55,0.3);
-            box-shadow: 0 4px 20px rgba(212,175,55,0.1);
-            transform: translateY(-2px);
-        }
-        .card h3 { font-size: 1.15rem; margin-bottom: 8px; color: var(--primary); }
-        .card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; }
+        .card h3 { font-size: 1.1rem; margin-bottom: 5px; }
+        .card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; }
         .timestamp {
             font-size: 0.75rem;
             color: #666;
-            margin-top: 10px;
+            margin-top: 8px;
             display: block;
             text-align: right;
-            letter-spacing: 0.5px;
         }
         .empty-state {
             text-align: center;
             color: var(--text-muted);
             margin-top: 50px;
             font-style: italic;
-            opacity: 0.7;
         }
 
         /* --- Admin Tabs --- */
         .admin-nav {
             display: flex;
             gap: 10px;
-            margin-bottom: 22px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
         .nav-btn {
             flex: 1;
-            padding: 12px;
-            background: linear-gradient(135deg, #1a1a1a, #111111);
-            color: #888;
+            padding: 10px;
+            background: #333;
+            color: #aaa;
             font-size: 0.85rem;
             min-width: 80px;
-            border: 1px solid rgba(212,175,55,0.1);
-            border-radius: 8px;
-            transition: all 0.3s ease;
         }
-        .nav-btn:hover {
-            border-color: rgba(212,175,55,0.3);
-            color: var(--text-muted);
-        }
-        .nav-btn.active { 
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark)); 
-            color: #000; 
-            border-color: var(--primary);
-            box-shadow: 0 4px 15px rgba(212,175,55,0.2);
-        }
+        .nav-btn.active { background: var(--primary); color: black; }
 
         /* --- Toast Notification --- */
         .toast {
             position: absolute;
-            bottom: 25px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
-            background: linear-gradient(135deg, #1a1508, #111111);
-            color: var(--primary);
-            padding: 12px 24px;
-            border-radius: 25px;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
             font-size: 0.9rem;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s, transform 0.3s;
+            transition: opacity 0.3s;
             white-space: nowrap;
             z-index: 100;
-            box-shadow: 0 4px 20px rgba(212,175,55,0.2);
-            border: 1px solid rgba(212,175,55,0.2);
-            font-weight: 500;
-            letter-spacing: 0.5px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
         }
-        .toast.show { opacity: 1; transform: translateX(-50%) translateY(-5px); }
+        .toast.show { opacity: 1; }
 
         /* --- Loading Spinner --- */
         .loader {
-            border: 4px solid #1a1508;
+            border: 4px solid #f3f3f3;
             border-top: 4px solid var(--primary);
-            border-right: 4px solid var(--primary-dark);
             border-radius: 50%;
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             animation: spin 1s linear infinite;
             margin: 20px auto;
             display: none;
-            box-shadow: 0 0 10px rgba(212,175,55,0.2);
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
@@ -438,21 +312,20 @@
         .reactions-bar {
             display: flex;
             align-items: center;
-            gap: 18px;
-            margin-top: 14px;
-            padding-top: 12px;
-            border-top: 1px solid rgba(212,175,55,0.1);
+            gap: 15px;
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid #444;
         }
         .reaction-item {
             display: flex;
             align-items: center;
-            gap: 6px;
-            font-size: 0.9rem;
+            gap: 5px;
+            font-size: 0.85rem;
             color: var(--text-muted);
             transition: transform 0.2s;
             cursor: pointer;
         }
-        .reaction-item:hover { transform: scale(1.1); }
         .reaction-item.pop {
             animation: popReact 0.4s ease;
         }
@@ -461,18 +334,18 @@
             50% { transform: scale(1.4); }
             100% { transform: scale(1); }
         }
-        .react-emoji { font-size: 1.2rem; filter: drop-shadow(0 0 4px rgba(212,175,55,0.3)); }
-        .likes-count { color: var(--primary); font-weight: bold; }
+        .react-emoji { font-size: 1.1rem; }
+        .likes-count { color: #ff6b81; font-weight: bold; }
 
         /* --- Post Line Animation --- */
         .post-text {
-            line-height: 1.7;
+            line-height: 1.6;
             overflow: hidden;
         }
         .post-text .line {
             opacity: 0;
-            transform: translateX(-20px);
-            animation: lineSlideIn 0.6s ease forwards;
+            transform: translateX(-15px);
+            animation: lineSlideIn 0.5s ease forwards;
         }
         @keyframes lineSlideIn {
             to { opacity: 1; transform: translateX(0); }
@@ -481,58 +354,54 @@
         /* --- Chat Button Animation --- */
         .chat-float-btn {
             position: absolute;
-            bottom: 85px;
-            right: 22px;
+            bottom: 80px;
+            right: 20px;
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary), #b8860b);
             border: none;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 4px 20px rgba(212,175,55,0.3);
-            animation: chatPulse 2.5s ease-in-out infinite;
+            box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4);
+            animation: chatPulse 2s ease-in-out infinite;
             z-index: 90;
-            transition: all 0.3s ease;
+            transition: transform 0.2s;
         }
-        .chat-float-btn:hover { 
-            transform: scale(1.15); 
-            box-shadow: 0 6px 30px rgba(212,175,55,0.5);
-        }
+        .chat-float-btn:hover { transform: scale(1.1); }
         @keyframes chatPulse {
-            0%, 100% { box-shadow: 0 4px 20px rgba(212,175,55,0.3); }
-            50% { box-shadow: 0 4px 30px rgba(212,175,55,0.6), 0 0 20px rgba(212,175,55,0.3); }
+            0%, 100% { box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4); }
+            50% { box-shadow: 0 4px 25px rgba(218, 165, 32, 0.8), 0 0 15px rgba(218, 165, 32, 0.5); }
         }
         .chat-badge {
             position: absolute;
             top: -5px;
             right: -5px;
-            background: linear-gradient(135deg, #DAA520, #B8860B);
-            color: #000;
+            background: var(--danger);
+            color: white;
             font-size: 0.7rem;
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: bold;
-            animation: badgeBounce 1.2s ease infinite;
-            box-shadow: 0 2px 10px rgba(218,165,32,0.4);
+            animation: badgeBounce 1s ease infinite;
         }
         @keyframes badgeBounce {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.25); }
+            50% { transform: scale(1.2); }
         }
 
         /* --- Chat Modal --- */
         .chat-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.92);
+            background: rgba(0,0,0,0.85);
             display: none;
             flex-direction: column;
             z-index: 200;
@@ -540,65 +409,55 @@
         }
         .chat-overlay.active { display: flex; }
         .chat-header {
-            padding: 18px 22px;
-            background: linear-gradient(180deg, #0a0800, #111111);
-            border-bottom: 2px solid rgba(212,175,55,0.3);
+            padding: 15px 20px;
+            background: linear-gradient(45deg, #000, #2a2a2a);
+            border-bottom: 2px solid var(--primary);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .chat-header h3 { color: var(--primary); font-size: 1.1rem; letter-spacing: 1px; }
-        .chat-close { background: none; border: none; color: var(--primary); font-size: 1.8rem; cursor: pointer; width: auto; padding: 0; transition: transform 0.2s; }
-        .chat-close:hover { transform: scale(1.2); color: var(--primary-light); }
+        .chat-header h3 { color: var(--primary); font-size: 1.1rem; }
+        .chat-close { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; width: auto; padding: 0; }
         .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 18px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
         .chat-msg {
-            max-width: 82%;
-            padding: 12px 16px;
-            border-radius: 14px;
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 12px;
             font-size: 0.9rem;
-            line-height: 1.5;
+            line-height: 1.4;
             word-wrap: break-word;
-            animation: messageIn 0.3s ease;
-        }
-        @keyframes messageIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
         }
         .chat-msg.user {
             align-self: flex-end;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary), #b8860b);
             color: #000;
             border-bottom-right-radius: 4px;
-            font-weight: 500;
         }
         .chat-msg.admin {
             align-self: flex-start;
-            background: linear-gradient(135deg, #1a1a1a, #111111);
+            background: #3a3a3a;
             color: white;
             border-bottom-left-radius: 4px;
-            border: 1px solid rgba(212,175,55,0.2);
             border-left: 3px solid var(--primary);
         }
         .chat-msg .msg-time {
             font-size: 0.65rem;
             opacity: 0.7;
-            margin-top: 5px;
+            margin-top: 4px;
             display: block;
         }
         .chat-input-area {
             padding: 15px;
-            border-top: 1px solid rgba(212,175,55,0.1);
+            border-top: 1px solid #444;
             display: flex;
             gap: 10px;
-            align-items: center;
-            background: #080808;
         }
         .chat-input-area input {
             flex: 1;
@@ -606,33 +465,30 @@
         }
         .chat-input-area button {
             width: auto;
-            padding: 12px 22px;
+            padding: 12px 20px;
         }
         .chat-welcome {
             text-align: center;
             color: var(--text-muted);
             font-size: 0.85rem;
-            padding: 25px;
-            line-height: 1.6;
+            padding: 20px;
         }
         .typing-indicator {
             display: none;
             align-self: flex-start;
-            background: #1a1a1a;
-            padding: 12px 16px;
-            border-radius: 14px;
+            background: #3a3a3a;
+            padding: 10px 14px;
+            border-radius: 12px;
             border-bottom-left-radius: 4px;
-            border: 1px solid rgba(212,175,55,0.15);
         }
         .typing-indicator span {
             display: inline-block;
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             background: var(--primary);
             border-radius: 50%;
             margin: 0 2px;
             animation: typingBounce 1.4s ease-in-out infinite;
-            box-shadow: 0 0 6px rgba(212,175,55,0.5);
         }
         .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
         .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
@@ -642,50 +498,60 @@
         }
 
         /* --- Admin Chat Panel --- */
+        .msg-delete-btn {
+            display: inline-block;
+            margin-left: 8px;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+        .msg-delete-btn:hover {
+            opacity: 1;
+            background: #ff3344;
+        }
         .chat-users-list {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
         .chat-user-card {
-            background: linear-gradient(135deg, #111111, #0a0a0a);
-            padding: 14px;
-            border-radius: 10px;
+            background: #2c2c2c;
+            padding: 12px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(212,175,55,0.1);
-            border-left: 4px solid #333;
+            transition: background 0.2s;
+            border-left: 4px solid #555;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .chat-user-card:hover { 
-            background: linear-gradient(135deg, #1a1a1a, #111111); 
-            border-color: rgba(212,175,55,0.25);
-            transform: translateX(4px);
-        }
+        .chat-user-card:hover { background: #363636; }
         .chat-user-card.unread { border-left-color: var(--danger); }
         .chat-user-card.seen { border-left-color: var(--primary); }
-        .chat-user-info h4 { font-size: 0.95rem; margin-bottom: 4px; color: var(--text-main); }
-        .chat-user-info p { font-size: 0.8rem; color: #777; }
+        .chat-user-info h4 { font-size: 0.95rem; margin-bottom: 3px; }
+        .chat-user-info p { font-size: 0.8rem; color: #888; }
         .chat-user-meta {
             text-align: right;
         }
         .chat-user-meta .unread-count {
-            background: linear-gradient(135deg, #DAA520, #B8860B);
-            color: #000;
+            background: var(--danger);
+            color: white;
             font-size: 0.7rem;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 10px;
         }
         .chat-user-meta .seen-tag {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: var(--primary);
             color: #000;
             font-size: 0.7rem;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-weight: bold;
+            padding: 2px 8px;
+            border-radius: 10px;
         }
         .admin-chat-thread {
             display: none;
@@ -694,257 +560,186 @@
         }
         .admin-chat-thread.active { display: flex; }
         .back-btn {
-            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
-            color: var(--primary);
+            background: #333;
+            color: white;
             width: auto;
-            padding: 10px 18px;
+            padding: 8px 15px;
             font-size: 0.85rem;
-            margin-bottom: 12px;
-            border: 1px solid rgba(212,175,55,0.15);
-        }
-        .back-btn:hover {
-            border-color: rgba(212,175,55,0.3);
+            margin-bottom: 10px;
         }
         .msg-status {
             font-size: 0.65rem;
-            margin-top: 4px;
+            margin-top: 3px;
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 3px;
         }
         .msg-status.seen { color: var(--primary); }
-        .msg-status.unseen { color: #666; }
+        .msg-status.unseen { color: #888; }
 
         /* --- Likes Setting in Admin --- */
         .likes-setting {
-            background: linear-gradient(135deg, #111111, #0a0a0a);
-            padding: 18px;
-            border-radius: 12px;
-            margin-bottom: 18px;
-            border: 1px solid rgba(212,175,55,0.15);
-            position: relative;
-            overflow: hidden;
+            background: #252525;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #444;
         }
-        .likes-setting::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 3px;
-            height: 100%;
-            background: linear-gradient(180deg, var(--primary), var(--primary-dark));
-        }
-        .likes-setting h4 { color: var(--primary); margin-bottom: 14px; font-size: 1rem; }
+        .likes-setting h4 { color: var(--primary); margin-bottom: 10px; font-size: 1rem; }
         .likes-row {
             display: flex;
             align-items: center;
-            gap: 12px;
-            margin-bottom: 12px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
         .likes-row label { flex: 1; margin: 0; }
-        .likes-row input { width: 90px; text-align: center; }
+        .likes-row input { width: 80px; text-align: center; }
 
         /* --- Colour Prediction Signal Styles --- */
         .prediction-section {
-            margin-top: 22px;
-            border-top: 1px solid rgba(212,175,55,0.1);
-            padding-top: 18px;
+            margin-top: 20px;
+            border-top: 2px solid #333;
+            padding-top: 15px;
         }
         .prediction-toggle-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: #000;
+            background: linear-gradient(135deg, #00bfff, #1e90ff);
+            color: white;
             font-weight: bold;
             font-size: 1rem;
-            padding: 16px;
-            border-radius: 12px;
+            padding: 14px;
+            border-radius: 10px;
             width: 100%;
             border: none;
             cursor: pointer;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
+            letter-spacing: 1px;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        .prediction-toggle-btn::after {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-            transform: rotate(30deg);
-            transition: all 0.6s;
-            opacity: 0;
-        }
-        .prediction-toggle-btn:hover::after {
-            opacity: 1;
-            left: 100%;
         }
         .prediction-toggle-btn:hover {
             transform: scale(1.02);
-            box-shadow: 0 6px 25px rgba(212,175,55,0.35);
+            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.4);
         }
         .prediction-container {
             display: none;
-            background: linear-gradient(135deg, #0a0a0a, #050505);
-            border-radius: 12px;
-            padding: 18px;
-            border: 1px solid rgba(212,175,55,0.1);
+            background: #1a1a1a;
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid #333;
             max-height: 350px;
             overflow-y: auto;
         }
         .prediction-container.active {
             display: block;
-            animation: fadeIn 0.4s ease;
+            animation: fadeIn 0.3s ease;
         }
         .prediction-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 14px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid rgba(212,175,55,0.1);
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #333;
         }
         .prediction-header h4 {
-            color: var(--primary);
-            font-size: 1.05rem;
-            letter-spacing: 0.5px;
+            color: #00bfff;
+            font-size: 1rem;
         }
         .prediction-timer {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--primary);
-            font-weight: 600;
-            letter-spacing: 0.5px;
         }
         .signal-list {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
         .signal-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 16px;
-            background: linear-gradient(135deg, #111111, #0a0a0a);
-            border-radius: 10px;
+            padding: 10px 14px;
+            background: #252525;
+            border-radius: 8px;
             font-size: 0.95rem;
-            border: 1px solid rgba(212,175,55,0.1);
-            border-left: 3px solid #333;
-            transition: all 0.3s ease;
-            animation: signalSlide 0.4s ease backwards;
+            border-left: 3px solid #555;
+            transition: all 0.2s ease;
         }
         .signal-item:hover {
-            background: linear-gradient(135deg, #1a1a1a, #111111);
-            transform: translateX(8px);
-            border-color: rgba(212,175,55,0.2);
-        }
-        @keyframes signalSlide {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
+            background: #2e2e2e;
+            transform: translateX(5px);
         }
         .signal-period {
             font-weight: bold;
             color: var(--text-main);
-            letter-spacing: 0.5px;
         }
         .signal-result {
             font-weight: bold;
-            padding: 5px 14px;
-            border-radius: 20px;
+            padding: 4px 12px;
+            border-radius: 15px;
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
         }
         .signal-result.big {
-            background: rgba(212,175,55,0.12);
-            color: var(--primary);
-            border: 1px solid rgba(212,175,55,0.2);
-            box-shadow: 0 0 10px rgba(212,175,55,0.1);
+            background: rgba(218, 165, 32, 0.2);
+            color: #daa520;
+            border: 1px solid rgba(218, 165, 32, 0.3);
         }
         .signal-result.small {
-            background: rgba(212,175,55,0.08);
-            color: var(--text-muted);
-            border: 1px solid rgba(212,175,55,0.15);
+            background: rgba(255, 107, 129, 0.2);
+            color: #ff6b81;
+            border: 1px solid rgba(255, 107, 129, 0.3);
         }
         .signal-loading {
             text-align: center;
             color: var(--text-muted);
-            padding: 25px;
+            padding: 20px;
             font-style: italic;
         }
         .prediction-update-soon {
             text-align: center;
-            color: var(--primary);
-            font-size: 1.15rem;
-            padding: 18px;
+            color: #00bfff;
+            font-size: 1.1rem;
+            padding: 15px;
             font-weight: bold;
-            text-shadow: 0 0 10px rgba(212,175,55,0.3);
-            animation: glowText 2s ease-in-out infinite alternate;
-        }
-        @keyframes glowText {
-            from { text-shadow: 0 0 5px rgba(212,175,55,0.2); }
-            to { text-shadow: 0 0 20px rgba(212,175,55,0.5), 0 0 40px rgba(212,175,55,0.2); }
         }
 
         /* --- Like Code Input --- */
         .like-code-section {
-            margin-top: 14px;
-            padding-top: 14px;
-            border-top: 1px solid rgba(212,175,55,0.1);
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #444;
         }
         .like-code-input-row {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
         }
         .like-code-input-row input {
             flex: 1;
             margin-bottom: 0;
             font-size: 0.9rem;
-            padding: 10px 12px;
+            padding: 8px 10px;
         }
         .like-code-input-row button {
             width: auto;
-            padding: 10px 18px;
+            padding: 8px 16px;
             font-size: 0.85rem;
         }
         .like-btn {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: #000;
-            margin-top: 10px;
-            font-weight: bold;
+            background: linear-gradient(135deg, #ff4757, #ff6b81);
+            color: white;
+            margin-top: 8px;
         }
         .like-btn:disabled {
-            background: #222;
-            color: #555;
+            background: #555;
+            color: #888;
             cursor: not-allowed;
-            border: 1px solid #333;
         }
         .user-liked-tag {
-            color: var(--primary);
-            font-size: 0.85rem;
-            margin-top: 8px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .user-liked-tag::before {
-            content: '✓';
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 18px;
-            height: 18px;
-            background: var(--primary);
-            color: #000;
-            border-radius: 50%;
-            font-size: 0.7rem;
-            font-weight: bold;
+            color: #daa520;
+            font-size: 0.8rem;
+            margin-top: 5px;
         }
 
         /* Hide login chat on non-login screens */
@@ -954,219 +749,7 @@
         #login-screen.active ~ .login-chat-btn {
             display: flex;
         }
-
-        /* --- Voice Message Styles --- */
-        .chat-input-area {
-            align-items: center;
-        }
-        .mic-btn {
-            width: 46px;
-            height: 46px;
-            padding: 0;
-            background: linear-gradient(135deg, #2a2a2a, #1a1a1a);
-            color: var(--primary);
-            border-radius: 50%;
-            font-size: 1.2rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-shrink: 0;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(212,175,55,0.15);
-        }
-        .mic-btn:hover { 
-            background: linear-gradient(135deg, #333, #222); 
-            border-color: rgba(212,175,55,0.3);
-            transform: scale(1.1);
-        }
-        .mic-btn.recording {
-            background: linear-gradient(135deg, #DAA520, #B8860B);
-            color: #000;
-            animation: micPulse 1s ease-in-out infinite;
-            border-color: var(--danger);
-        }
-        @keyframes micPulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 10px rgba(218,165,32,0.3); }
-            50% { transform: scale(1.15); box-shadow: 0 0 20px rgba(218,165,32,0.5); }
-        }
-        .recording-indicator {
-            display: none;
-            align-items: center;
-            gap: 12px;
-            flex: 1;
-            color: var(--danger);
-            font-size: 0.95rem;
-            font-weight: bold;
-        }
-        .recording-indicator.active { display: flex; }
-        .recording-dot {
-            width: 12px;
-            height: 12px;
-            background: linear-gradient(135deg, #DAA520, #B8860B);
-            border-radius: 50%;
-            animation: recBlink 1s ease-in-out infinite;
-            box-shadow: 0 0 10px rgba(218,165,32,0.4);
-        }
-        @keyframes recBlink {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.8); }
-        }
-        .voice-msg {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .voice-msg audio {
-            height: 38px;
-            width: 200px;
-            max-width: 100%;
-            border-radius: 6px;
-        }
-        .voice-msg audio::-webkit-media-controls-panel {
-            background: rgba(212,175,55,0.1);
-        }
-        .voice-duration {
-            font-size: 0.75rem;
-            opacity: 0.8;
-            color: var(--text-muted);
-        }
-        .chat-msg .voice-wave {
-            display: flex;
-            align-items: center;
-            gap: 3px;
-            margin-bottom: 6px;
-        }
-        .chat-msg .voice-wave span {
-            width: 3px;
-            background: currentColor;
-            border-radius: 2px;
-            animation: voiceWave 0.6s ease-in-out infinite alternate;
-        }
-        .chat-msg.user .voice-wave span { background: #000; }
-        .chat-msg.admin .voice-wave span { background: var(--primary); }
-        .chat-msg .voice-wave span:nth-child(1) { height: 6px; animation-delay: 0s; }
-        .chat-msg .voice-wave span:nth-child(2) { height: 12px; animation-delay: 0.1s; }
-        .chat-msg .voice-wave span:nth-child(3) { height: 8px; animation-delay: 0.2s; }
-        .chat-msg .voice-wave span:nth-child(4) { height: 14px; animation-delay: 0.15s; }
-        .chat-msg .voice-wave span:nth-child(5) { height: 6px; animation-delay: 0.05s; }
-        @keyframes voiceWave {
-            from { transform: scaleY(0.6); }
-            to { transform: scaleY(1.2); }
-        }
-
-        /* --- Enhanced User Feed Cards --- */
-        #signals-feed .card {
-            background: linear-gradient(135deg, #111111, #080808);
-            border: 1px solid rgba(212,175,55,0.15);
-            position: relative;
-            overflow: hidden;
-        }
-        #signals-feed .card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212,175,55,0.03), transparent);
-            transition: left 0.7s ease;
-            pointer-events: none;
-        }
-        #signals-feed .card:hover::after {
-            left: 100%;
-        }
-        #signals-feed .card h3 {
-            color: var(--primary);
-            font-size: 1.2rem;
-            margin-bottom: 12px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
-        /* --- Gold Shimmer for Special Elements --- */
-        .gold-shimmer {
-            background: linear-gradient(90deg, var(--primary-dark), var(--primary), var(--primary-light), var(--primary), var(--primary-dark));
-            background-size: 200% auto;
-            animation: shimmer 3s linear infinite;
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        @keyframes shimmer {
-            0% { background-position: 200% center; }
-            100% { background-position: -200% center; }
-        }
-
-        /* --- Session Timer Styling --- */
-        #session-timer {
-            font-size: 0.85rem;
-            color: var(--primary);
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            background: rgba(212,175,55,0.08);
-            padding: 4px 12px;
-            border-radius: 20px;
-            border: 1px solid rgba(212,175,55,0.15);
-        }
-
-        /* --- Admin Cards Enhancement --- */
-        .codes-list-container .card,
-        #users-list .card,
-        #admin-posts-list .card {
-            transition: all 0.3s ease;
-        }
-        .codes-list-container .card:hover,
-        #users-list .card:hover,
-        #admin-posts-list .card:hover {
-            border-color: rgba(212,175,55,0.3);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(212,175,55,0.08);
-        }
-
-        /* --- Scrollbar Global Styling --- */
-        ::-webkit-scrollbar {
-            width: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0a0a0a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: linear-gradient(180deg, var(--primary-dark), var(--primary));
-            border-radius: 5px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(180deg, var(--primary), var(--primary-light));
-        }
-
-        /* --- Scroll Fix --- */
-        .screen {
-            -webkit-overflow-scrolling: touch;
-        }
-        #admin-screen {
-            overflow-y: auto !important;
-        }
-        #admin-screen .admin-nav {
-            flex-shrink: 0;
-        }
-
-        /* --- Delete Chat Button --- */
-        .chat-delete-btn {
-            background: linear-gradient(135deg, #DAA520, #B8860B);
-            color: #000;
-            border: none;
-            border-radius: 6px;
-            padding: 4px 10px;
-            font-size: 0.75rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .chat-delete-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 2px 8px rgba(218,165,32,0.3);
-        }
     </style>
-<base target="_blank">
 <base target="_blank">
 <base target="_blank">
 </head>
@@ -1175,12 +758,15 @@
     <div class="app-container">
         <!-- SPLASH SCREEN -->
         <div id="splash-screen" class="splash-screen">
-            <img id="splash-logo" src="images/nrw_logo.jpg" class="splash-logo" alt="NRW PREDICTION MASTER Logo" onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22130%22 height=%22130%22%3E%3Ccircle cx=%2265%22 cy=%2265%22 r=%2260%22 fill=%22%23000000%22 stroke=%22%23D4AF37%22 stroke-width=%223%22/%3E%3Ctext x=%2265%22 y=%2273%22 text-anchor=%22middle%22 fill=%22%23D4AF37%22 font-size=%2226%22 font-family=%22Arial%22 font-weight=%22bold%22%3ENRW%3C/text%3E%3C/svg%3E'">
+            <div class="login-anim-circle"></div>
             <div class="splash-text">NRW PREDICTION MASTER</div>
         </div>
 
         <header>
-            <img id="header-logo" src="images/nrw_logo.jpg" class="header-logo" alt="NRW Logo" onerror="this.style.display='none'">
+            <div class="logo-container">
+                <img id="app-logo" src="" alt="NRW PREDICTION MASTER Logo" onload="this.classList.add('show')">
+                <div id="css-logo" class="css-logo">NRW</div>
+            </div>
             <h1>NRW PREDICTION MASTER</h1>
         </header>
 
@@ -1189,13 +775,13 @@
 
         <!-- SCREEN 1: LOGIN -->
         <div id="login-screen" class="screen active">
-            <h2 style="text-align: center; margin-bottom: 24px; color: var(--primary); letter-spacing: 2px; font-weight: 300;">Login Required</h2>
+            <h2 style="text-align: center; margin-bottom: 20px;">Login Required</h2>
             <div class="form-group">
                 <label>Enter Special Code</label>
                 <input type="text" id="login-code" placeholder="Ex: 1234-ABCD">
             </div>
             <button onclick="handleLogin()">Login Now</button>
-            <p style="text-align: center; margin-top: 18px; font-size: 0.8rem; color: #666; line-height: 1.6;">
+            <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: #666;">
                This is an all-in-one color prediction app. It is intended for users aged 18+ only and is meant for educational purposes only.
 
 If you don’t have the special code, you can contact us to purchase it.
@@ -1225,13 +811,8 @@ If you don’t have the special code, you can contact us to purchase it.
                 <span></span><span></span><span></span>
             </div>
             <div class="chat-input-area">
-                <button id="user-mic-btn" class="mic-btn" onclick="toggleUserRecording()">🎙️</button>
-                <div id="user-recording-indicator" class="recording-indicator">
-                    <span class="recording-dot"></span>
-                    <span id="user-recording-timer">00:00</span>
-                </div>
                 <input type="text" id="chat-input" placeholder="Type a message..." onkeypress="if(event.key==='Enter')sendChatMessage()">
-                <button id="user-send-btn" onclick="sendChatMessage()">Send</button>
+                <button onclick="sendChatMessage()">Send</button>
             </div>
         </div>
 
@@ -1247,7 +828,7 @@ If you don’t have the special code, you can contact us to purchase it.
 
             <!-- Tab: Generate Codes -->
             <div id="tab-codes" class="admin-tab">
-                <h3 style="color: var(--primary); margin-bottom: 15px;">Generate Code</h3>
+                <h3>Generate Code</h3>
                 <div class="form-group" style="margin-top: 15px;">
                     <label>Validity (Days)</label>
                     <select id="code-duration">
@@ -1258,40 +839,40 @@ If you don’t have the special code, you can contact us to purchase it.
                     </select>
                 </div>
                 <button onclick="generateCode()">Generate New Code</button>
-
+                
                 <div style="margin-top: 30px;">
-                    <h4 style="color: var(--primary); margin-bottom: 10px;">Active Codes</h4>
+                    <h4>Active Codes</h4>
                     <div id="codes-list" class="codes-list-container"></div>
                 </div>
             </div>
 
             <!-- Tab: Post Signal -->
             <div id="tab-post" class="admin-tab" style="display: none;">
-                <h3 style="color: var(--primary); margin-bottom: 15px;">Send Signal</h3>
+                <h3>Send Signal</h3>
                 <div class="form-group" style="margin-top: 15px;">
                     <label>Message</label>
                     <textarea id="signal-msg" rows="4" placeholder="Type your signal here..."></textarea>
                 </div>
                 <button onclick="postSignal()">Post Now (Auto Delete at Midnight)</button>
-
+                
                 <div style="margin-top: 30px;">
-                    <h4 style="color: var(--primary); margin-bottom: 10px;">Current Active Post</h4>
+                    <h4>Current Active Post</h4>
                     <div id="admin-posts-list"></div>
                 </div>
             </div>
 
             <!-- Tab: Users -->
             <div id="tab-users" class="admin-tab" style="display: none;">
-                <h3 style="color: var(--primary); margin-bottom: 15px;">Active Users</h3>
+                <h3>Active Users</h3>
                 <p style="font-size: 0.8rem; color: #888; margin-bottom: 10px;">Users currently logged in with valid codes.</p>
                 <div id="users-list"></div>
             </div>
 
             <!-- Tab: Auto Likes Setting -->
             <div id="tab-likes" class="admin-tab" style="display: none;">
-                <h3 style="color: var(--primary); margin-bottom: 15px;">Auto Likes Settings</h3>
+                <h3>Auto Likes Settings</h3>
                 <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">Set default fake likes count for new posts.</p>
-
+                
                 <div class="likes-setting">
                     <h4>Default Auto Likes</h4>
                     <div class="likes-row">
@@ -1317,12 +898,12 @@ If you don’t have the special code, you can contact us to purchase it.
                     </div>
                     <p style="font-size: 0.8rem; color: #888; margin-top:5px;">These will apply to the very next post only.</p>
                 </div>
-
+                
                 <div style="margin-top: 20px;">
-                    <h4 style="color: var(--primary); margin-bottom: 10px;">Current Saved Setting</h4>
+                    <h4>Current Saved Setting</h4>
                     <div id="saved-likes-info" class="card">
-                        <p>Default Likes: <strong id="saved-default-likes" style="color: var(--primary);">12</strong></p>
-                        <p>Default Loves: <strong id="saved-default-loves" style="color: var(--primary);">5</strong></p>
+                        <p>Default Likes: <strong id="saved-default-likes">12</strong></p>
+                        <p>Default Loves: <strong id="saved-default-loves">5</strong></p>
                     </div>
                 </div>
             </div>
@@ -1330,24 +911,22 @@ If you don’t have the special code, you can contact us to purchase it.
             <!-- Tab: Admin Chat Panel -->
             <div id="tab-chats" class="admin-tab" style="display: none;">
                 <div id="admin-chat-list-view">
-                    <h3 style="color: var(--primary); margin-bottom: 10px;">User Messages</h3>
+                    <h3>User Messages</h3>
                     <p style="font-size: 0.8rem; color: #888; margin-bottom: 10px;">Click on a user to reply. Unread messages are marked red.</p>
                     <div id="admin-chat-users-list" class="chat-users-list">
                         <div class="empty-state">No messages yet.</div>
                     </div>
                 </div>
                 <div id="admin-chat-thread" class="admin-chat-thread">
-                    <button class="back-btn" onclick="backToChatList()">&larr; Back to Users</button>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <button class="back-btn" onclick="backToChatList()" style="margin-bottom:0;">&larr; Back to Users</button>
+                        <button class="danger" onclick="deleteAllChatForUser()" style="width:auto; padding:8px 14px; font-size:0.8rem; margin-bottom:0; background:linear-gradient(135deg, #ff4757, #ff6b81);">🗑 Delete All Chat</button>
+                    </div>
                     <h4 id="admin-chat-user-id" style="margin-bottom:10px; color:var(--primary);">User</h4>
-                    <div id="admin-chat-messages" class="chat-messages" style="background:#0a0a0a; border-radius:10px; border: 1px solid rgba(212,175,55,0.1);"></div>
+                    <div id="admin-chat-messages" class="chat-messages" style="background:#1a1a1a; border-radius:8px;"></div>
                     <div class="chat-input-area">
-                        <button id="admin-mic-btn" class="mic-btn" onclick="toggleAdminRecording()">🎙️</button>
-                        <div id="admin-recording-indicator" class="recording-indicator">
-                            <span class="recording-dot"></span>
-                            <span id="admin-recording-timer">00:00</span>
-                        </div>
                         <input type="text" id="admin-chat-input" placeholder="Type reply..." onkeypress="if(event.key==='Enter')sendAdminReply()">
-                        <button id="admin-send-btn" onclick="sendAdminReply()">Reply</button>
+                        <button onclick="sendAdminReply()">Reply</button>
                     </div>
                 </div>
             </div>
@@ -1359,8 +938,8 @@ If you don’t have the special code, you can contact us to purchase it.
         <div id="user-screen" class="screen">
             <div class="feed-header">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h3 style="color: var(--primary); letter-spacing: 1px;">Live Signals</h3>
-                    <span id="session-timer">Checking...</span>
+                    <h3>Live Signals</h3>
+                    <span id="session-timer" style="font-size: 0.8rem; color: var(--primary);">Checking...</span>
                 </div>
                 <div class="loader" id="feed-loader"></div>
             </div>
@@ -1391,13 +970,6 @@ If you don’t have the special code, you can contact us to purchase it.
             </div>
         </div>
     </div>
-
-
-    <!-- ======= APNI GITHUB LOGO URL YAHAN DAALEIN ======= -->
-    <!-- Example: https://raw.githubusercontent.com/aapkausername/aapkarepo/main/nrw_logo.png -->
-    <script>
-        window.LOGO_URL = "images/nrw_logo.jpg"; // <-- YEHAN APNI GITHUB RAW URL DAALEIN
-    </script>
 
     <!-- Firebase SDK -->
     <script type="module">
@@ -1430,6 +1002,10 @@ If you don’t have the special code, you can contact us to purchase it.
         let predictionInterval = null;
         let userHasLiked = false;
 
+        // --- LOGO CONFIG: Replace with your GitHub raw logo URL ---
+        const LOGO_URL = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/logo.png';
+        document.getElementById('app-logo').src = LOGO_URL;
+
         // Generate a persistent chat user id
         function getChatUserId() {
             let uid = localStorage.getItem('safe_chat_uid');
@@ -1443,13 +1019,6 @@ If you don’t have the special code, you can contact us to purchase it.
 
         // --- SPLASH SCREEN ---
         window.addEventListener('load', () => {
-            // Logo setup from config
-            if (window.LOGO_URL && window.LOGO_URL !== "images/nrw_logo.jpg") {
-                const splashLogo = document.getElementById('splash-logo');
-                const headerLogo = document.getElementById('header-logo');
-                if (splashLogo) splashLogo.src = window.LOGO_URL;
-                if (headerLogo) headerLogo.src = window.LOGO_URL;
-            }
             setTimeout(() => {
                 document.getElementById('splash-screen').classList.add('hidden');
             }, 2500);
@@ -1645,7 +1214,7 @@ If you don’t have the special code, you can contact us to purchase it.
                     const isExpired = Date.now() > code.expiresAt;
                     const div = document.createElement('div');
                     div.className = 'card';
-                    div.style.borderLeftColor = isExpired ? '#333' : 'var(--primary)';
+                    div.style.borderLeftColor = isExpired ? '#555' : 'var(--primary)';
                     div.innerHTML = `
                         <h3>${key} ${isExpired ? '(Expired)' : ''}</h3>
                         <p>Days: ${code.durationDays}</p>
@@ -1671,7 +1240,7 @@ If you don’t have the special code, you can contact us to purchase it.
                     div.className = 'card';
                     div.innerHTML = `
                         <h3>User: ${key}</h3>
-                        <p>Status: <span style="color:${user.status === 'online' ? 'var(--primary)' : '#666'}">${user.status}</span></p>
+                        <p>Status: <span style="color:${user.status === 'online' ? '#daa520' : '#ff5252'}">${user.status}</span></p>
                         <span class="timestamp">Last Active: ${timeAgo(user.lastSeen)}</span>
                     `;
                     list.appendChild(div);
@@ -1699,7 +1268,7 @@ If you don’t have the special code, you can contact us to purchase it.
                         <div class="reaction-item"><span class="react-emoji">😍</span><span>${loves}</span></div>
                     </div>
                     <span class="timestamp">Posted: ${formatDate(data.timestamp)}</span>
-                    <span class="timestamp" style="color: var(--primary);">Auto-delete at: ${expiryText}</span>
+                    <span class="timestamp" style="color: #00bfff;">Auto-delete at: ${expiryText}</span>
                 `;
                 list.appendChild(div);
             });
@@ -1835,10 +1404,10 @@ If you don’t have the special code, you can contact us to purchase it.
                         remove(ref(db, 'posts/current'));
                     }
                     feedContainer.innerHTML = `
-                        <div class="card" style="border: 1px solid rgba(212,175,55,0.2); text-align: center;">
-                            <h3 style="color: var(--primary); font-size: 1.3rem;">📢 Update Soon</h3>
-                            <p style="margin-top: 14px; font-size: 1rem;">Admin has not posted any signal yet.</p>
-                            <p style="font-size: 0.85rem; color: #666; margin-top: 8px;">Please check back later.</p>
+                        <div class="card" style="border-left-color: #00bfff; text-align: center;">
+                            <h3 style="color: #00bfff;">📢 Update Soon</h3>
+                            <p style="margin-top: 10px;">Admin has not posted any signal yet.</p>
+                            <p style="font-size: 0.8rem; color: #666;">Please check back later.</p>
                         </div>
                     `;
                     return;
@@ -1857,9 +1426,9 @@ If you don’t have the special code, you can contact us to purchase it.
                 rawLines.forEach((line, i) => {
                     const trimmed = line.trim();
                     if (trimmed) {
-                        animatedText += `<div class="line" style="animation-delay: ${i * 0.12}s">${trimmed}</div>`;
+                        animatedText += `<div class="line" style="animation-delay: ${i * 0.1}s">${trimmed}</div>`;
                     } else {
-                        animatedText += `<div class="line" style="animation-delay: ${i * 0.12}s">&nbsp;</div>`;
+                        animatedText += `<div class="line" style="animation-delay: ${i * 0.1}s">&nbsp;</div>`;
                     }
                 });
                 if (!animatedText) animatedText = `<div class="line" style="animation-delay: 0s">${data.text}</div>`;
@@ -1868,23 +1437,23 @@ If you don’t have the special code, you can contact us to purchase it.
                 const likeSectionHTML = userHasLiked ? 
                     `<p class="user-liked-tag">You have already liked this post</p>` :
                     `<div class="like-code-section">
-                        <label style="font-size: 0.8rem; color: var(--text-muted);">Enter Like Code to give 1 Like:</label>
+                        <label style="font-size: 0.8rem; color: #888;">Enter Like Code to give 1 Like:</label>
                         <div class="like-code-input-row">
                             <input type="text" id="like-code-input" placeholder="Enter special code">
-                            <button onclick="verifyLikeCode()" style="width: auto; padding: 10px 14px; font-size: 0.8rem;">Verify</button>
+                            <button onclick="verifyLikeCode()" style="width: auto; padding: 8px 12px; font-size: 0.8rem;">Verify</button>
                         </div>
                         <button id="real-like-btn" class="like-btn" onclick="giveUserLike()" disabled>❤️ Give Like (1)</button>
                     </div>`;
                 
                 div.innerHTML = `
                     <h3 style="color: var(--primary)">Special Paid Signal</h3>
-                    <div class="post-text" style="font-size: 1.1rem; color: white; margin-top:12px;">${animatedText}</div>
+                    <div class="post-text" style="font-size: 1.1rem; color: white; margin-top:10px;">${animatedText}</div>
                     <div class="reactions-bar">
                         <div class="reaction-item ${likes > 0 ? 'pop' : ''}"><span class="react-emoji">❤️</span><span class="likes-count" id="display-likes">${likes}</span></div>
                         <div class="reaction-item ${loves > 0 ? 'pop' : ''}"><span class="react-emoji">😍</span><span id="display-loves">${loves}</span></div>
                     </div>
                     <span class="timestamp">${formatDate(data.timestamp)}</span>
-                    <span class="timestamp" style="color: var(--primary);">Always 3 level maintain</span>
+                    <span class="timestamp" style="color: #00bfff;">Always 3 level maintain</span>
                     ${likeSectionHTML}
                 `;
                 feedContainer.appendChild(div);
@@ -2024,11 +1593,9 @@ If you don’t have the special code, you can contact us to purchase it.
                 const item = document.createElement('div');
                 item.className = 'signal-item';
                 if (sig.isCurrent) {
-                    item.style.borderLeftColor = 'var(--primary)';
-                    item.style.background = 'linear-gradient(135deg, #0f0800, #1a1205)';
-                    item.style.boxShadow = '0 0 15px rgba(212,175,55,0.1)';
+                    item.style.borderLeftColor = '#00bfff';
+                    item.style.background = '#1a1f2e';
                 }
-                item.style.animationDelay = `${index * 0.02}s`;
                 item.innerHTML = `
                     <span class="signal-period">${sig.period}</span>
                     <span class="signal-result ${sig.result}">${sig.result}</span>
@@ -2059,7 +1626,6 @@ If you don’t have the special code, you can contact us to purchase it.
             }, 1000);
         }
 
-
         // --- ADMIN CHAT PANEL ---
         function loadAdminChatUsers() {
             const container = document.getElementById('admin-chat-users-list');
@@ -2081,18 +1647,13 @@ If you don’t have the special code, you can contact us to purchase it.
                     const unreadCount = user.unreadCount || (user.hasUnread ? 1 : 0);
                     
                     card.innerHTML = `
-                        <div style="display:flex; justify-content:space-between; align-items:center; width:100%;">
-                            <div class="chat-user-info" style="flex:1; min-width:0;">
-                                <h4>${uid}</h4>
-                                <p>${user.lastMessage ? (user.lastMessage.substring(0, 30) + '...') : 'No messages'}</p>
-                            </div>
-                            <div class="chat-user-meta" style="display:flex; flex-direction:column; align-items:flex-end; gap:6px;">
-                                <div style="display:flex; gap:6px; align-items:center;">
-                                    ${unreadCount > 0 ? `<span class="unread-count">${unreadCount}</span>` : `<span class="seen-tag">seen</span>`}
-                                    <button class="chat-delete-btn" onclick="event.stopPropagation(); deleteUserChat('${uid}')">Delete</button>
-                                </div>
-                                <p style="font-size:0.7rem; color:#888;">${user.lastActive ? timeAgo(user.lastActive) : ''}</p>
-                            </div>
+                        <div class="chat-user-info">
+                            <h4>${uid}</h4>
+                            <p>${user.lastMessage ? (user.lastMessage.substring(0, 30) + '...') : 'No messages'}</p>
+                        </div>
+                        <div class="chat-user-meta">
+                            ${unreadCount > 0 ? `<span class="unread-count">${unreadCount}</span>` : `<span class="seen-tag">seen</span>`}
+                            <p style="font-size:0.7rem; color:#888; margin-top:3px;">${user.lastActive ? timeAgo(user.lastActive) : ''}</p>
                         </div>
                     `;
                     container.appendChild(card);
@@ -2125,10 +1686,12 @@ If you don’t have the special code, you can contact us to purchase it.
                     div.className = 'chat-msg ' + (msg.sender === 'admin' ? 'user' : 'admin');
                     const statusClass = msg.seenByUser ? 'seen' : 'unseen';
                     const statusText = msg.seenByUser ? 'Seen' : 'Sent';
-                    const msgContent = msg.type === 'voice' ? renderVoiceContent(msg, msg.sender === 'admin') : msg.text;
-
+                    
                     div.innerHTML = `
-                        ${msgContent}
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                            <span style="flex:1;">${msg.text}</span>
+                            <button class="msg-delete-btn" onclick="deleteSingleMessage('${key}')" title="Delete this message">✕</button>
+                        </div>
                         <span class="msg-time">${formatDate(msg.timestamp)}</span>
                         ${msg.sender === 'admin' ? `<span class="msg-status ${statusClass}">${statusText}</span>` : ''}
                     `;
@@ -2159,22 +1722,6 @@ If you don’t have the special code, you can contact us to purchase it.
             document.getElementById('admin-chat-thread').classList.remove('active');
         };
 
-        window.deleteUserChat = async (userId) => {
-            if (!confirm('Kya aap ' + userId + ' ki chat PERMANENTLY delete karna chahte hain?')) return;
-            
-            try {
-                await remove(ref(db, 'chats/' + userId));
-                await remove(ref(db, 'chatUsers/' + userId));
-                showToast('Chat permanently deleted!');
-                
-                if (activeAdminChatUser === userId) {
-                    backToChatList();
-                }
-            } catch (err) {
-                showToast('Delete failed: ' + err.message);
-            }
-        };
-
         window.sendAdminReply = async () => {
             const input = document.getElementById('admin-chat-input');
             const text = input.value.trim();
@@ -2197,195 +1744,31 @@ If you don’t have the special code, you can contact us to purchase it.
             });
         };
 
-        // --- VOICE MESSAGE SYSTEM ---
-        let userMediaRecorder = null;
-        let adminMediaRecorder = null;
-        let userAudioChunks = [];
-        let adminAudioChunks = [];
-        let userRecordingTimer = null;
-        let adminRecordingTimer = null;
-        let userRecordingStart = 0;
-        let adminRecordingStart = 0;
+                // --- PERMANENTLY DELETE SINGLE MESSAGE ---
+        window.deleteSingleMessage = async (messageKey) => {
+            if (!activeAdminChatUser) return;
+            if (!confirm('Delete this message permanently?')) return;
 
-        async function startRecording(who) {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                const options = { mimeType: 'audio/webm;codecs=opus' };
-                const mediaRecorder = new MediaRecorder(stream, options);
-                const chunks = [];
-
-                mediaRecorder.ondataavailable = (e) => {
-                    if (e.data.size > 0) chunks.push(e.data);
-                };
-
-                mediaRecorder.onstop = () => {
-                    stream.getTracks().forEach(t => t.stop());
-                    const blob = new Blob(chunks, { type: 'audio/webm' });
-                    const reader = new FileReader();
-                    reader.onloadend = () => {
-                        const base64 = reader.result.split(',')[1];
-                        const duration = who === 'user' 
-                            ? Math.floor((Date.now() - userRecordingStart) / 1000)
-                            : Math.floor((Date.now() - adminRecordingStart) / 1000);
-                        sendVoiceMessage(who, base64, duration);
-                    };
-                    reader.readAsDataURL(blob);
-                };
-
-                mediaRecorder.start();
-
-                if (who === 'user') {
-                    userMediaRecorder = mediaRecorder;
-                    userAudioChunks = chunks;
-                    userRecordingStart = Date.now();
-                } else {
-                    adminMediaRecorder = mediaRecorder;
-                    adminAudioChunks = chunks;
-                    adminRecordingStart = Date.now();
-                }
-                return true;
-            } catch (err) {
-                showToast("Microphone access denied or not available");
-                console.error(err);
-                return false;
-            }
-        }
-
-        function stopRecording(who) {
-            if (who === 'user' && userMediaRecorder) {
-                userMediaRecorder.stop();
-                userMediaRecorder = null;
-            } else if (who === 'admin' && adminMediaRecorder) {
-                adminMediaRecorder.stop();
-                adminMediaRecorder = null;
-            }
-        }
-
-        function updateRecordingUI(who, active) {
-            if (who === 'user') {
-                const micBtn = document.getElementById('user-mic-btn');
-                const indicator = document.getElementById('user-recording-indicator');
-                const input = document.getElementById('chat-input');
-                const sendBtn = document.getElementById('user-send-btn');
-                if (active) {
-                    micBtn.classList.add('recording');
-                    micBtn.textContent = '⏹️';
-                    indicator.classList.add('active');
-                    input.style.display = 'none';
-                    sendBtn.style.display = 'none';
-                    userRecordingStart = Date.now();
-                    userRecordingTimer = setInterval(() => {
-                        const sec = Math.floor((Date.now() - userRecordingStart) / 1000);
-                        const m = Math.floor(sec / 60).toString().padStart(2, '0');
-                        const s = (sec % 60).toString().padStart(2, '0');
-                        document.getElementById('user-recording-timer').textContent = `${m}:${s}`;
-                    }, 1000);
-                } else {
-                    micBtn.classList.remove('recording');
-                    micBtn.textContent = '🎙️';
-                    indicator.classList.remove('active');
-                    input.style.display = 'block';
-                    sendBtn.style.display = 'block';
-                    clearInterval(userRecordingTimer);
-                    document.getElementById('user-recording-timer').textContent = '00:00';
-                }
-            } else {
-                const micBtn = document.getElementById('admin-mic-btn');
-                const indicator = document.getElementById('admin-recording-indicator');
-                const input = document.getElementById('admin-chat-input');
-                const sendBtn = document.getElementById('admin-send-btn');
-                if (active) {
-                    micBtn.classList.add('recording');
-                    micBtn.textContent = '⏹️';
-                    indicator.classList.add('active');
-                    input.style.display = 'none';
-                    sendBtn.style.display = 'none';
-                    adminRecordingStart = Date.now();
-                    adminRecordingTimer = setInterval(() => {
-                        const sec = Math.floor((Date.now() - adminRecordingStart) / 1000);
-                        const m = Math.floor(sec / 60).toString().padStart(2, '0');
-                        const s = (sec % 60).toString().padStart(2, '0');
-                        document.getElementById('admin-recording-timer').textContent = `${m}:${s}`;
-                    }, 1000);
-                } else {
-                    micBtn.classList.remove('recording');
-                    micBtn.textContent = '🎙️';
-                    indicator.classList.remove('active');
-                    input.style.display = 'block';
-                    sendBtn.style.display = 'block';
-                    clearInterval(adminRecordingTimer);
-                    document.getElementById('admin-recording-timer').textContent = '00:00';
-                }
-            }
-        }
-
-        window.toggleUserRecording = async () => {
-            if (userMediaRecorder && userMediaRecorder.state === 'recording') {
-                stopRecording('user');
-                updateRecordingUI('user', false);
-            } else {
-                const started = await startRecording('user');
-                if (started) updateRecordingUI('user', true);
-            }
+            const msgRef = ref(db, 'chats/' + activeAdminChatUser + '/messages/' + messageKey);
+            await remove(msgRef);
+            showToast('Message deleted permanently');
         };
 
-        window.toggleAdminRecording = async () => {
-            if (adminMediaRecorder && adminMediaRecorder.state === 'recording') {
-                stopRecording('admin');
-                updateRecordingUI('admin', false);
-            } else {
-                const started = await startRecording('admin');
-                if (started) updateRecordingUI('admin', true);
-            }
+        // --- PERMANENTLY DELETE ALL CHAT FOR A USER ---
+        window.deleteAllChatForUser = async () => {
+            if (!activeAdminChatUser) return;
+            if (!confirm('WARNING: This will permanently delete ALL chat messages for this user. Continue?')) return;
+
+            const chatPath = 'chats/' + activeAdminChatUser;
+            const chatUserRef = ref(db, 'chatUsers/' + activeAdminChatUser);
+
+            await remove(ref(db, chatPath));
+            await remove(chatUserRef);
+
+            showToast('All chat permanently deleted');
+            backToChatList();
+            loadAdminChatUsers();
         };
-
-        async function sendVoiceMessage(who, base64Audio, duration) {
-            if (who === 'user') {
-                const chatPath = 'chats/' + chatUserId + '/messages';
-                await push(ref(db, chatPath), {
-                    type: 'voice',
-                    audioData: base64Audio,
-                    duration: duration,
-                    sender: 'user',
-                    timestamp: Date.now(),
-                    seenByAdmin: false,
-                    seenByUser: true
-                });
-                await update(ref(db, 'chatUsers/' + chatUserId), {
-                    lastMessage: '🎙️ Voice message',
-                    lastActive: Date.now(),
-                    hasUnread: true,
-                    status: 'online'
-                });
-            } else if (who === 'admin' && activeAdminChatUser) {
-                const chatPath = 'chats/' + activeAdminChatUser + '/messages';
-                await push(ref(db, chatPath), {
-                    type: 'voice',
-                    audioData: base64Audio,
-                    duration: duration,
-                    sender: 'admin',
-                    timestamp: Date.now(),
-                    seenByAdmin: true,
-                    seenByUser: false
-                });
-                await update(ref(db, 'chatUsers/' + activeAdminChatUser), {
-                    lastMessage: '🎙️ Voice message',
-                    lastActive: Date.now()
-                });
-            }
-        }
-
-        function renderVoiceContent(msg, isUser) {
-            const wave = '<div class="voice-wave"><span></span><span></span><span></span><span></span><span></span></div>';
-            const dur = msg.duration ? `<span class="voice-duration">${msg.duration}s</span>` : '';
-            return `
-                <div class="voice-msg">
-                    ${wave}
-                    <audio controls src="data:audio/webm;base64,${msg.audioData}"></audio>
-                    ${dur}
-                </div>
-            `;
-        }
 
         // --- CHAT SYSTEM (User side) ---
         window.openChat = () => {
@@ -2433,9 +1816,8 @@ If you don’t have the special code, you can contact us to purchase it.
                 entries.forEach(([key, msg]) => {
                     const div = document.createElement('div');
                     div.className = 'chat-msg ' + (msg.sender === 'user' ? 'user' : 'admin');
-                    const msgContent = msg.type === 'voice' ? renderVoiceContent(msg, msg.sender === 'user') : msg.text;
                     div.innerHTML = `
-                        ${msgContent}
+                        ${msg.text}
                         <span class="msg-time">${formatDate(msg.timestamp)} ${msg.sender === 'user' ? (msg.seenByAdmin ? '✓✓' : '✓') : ''}</span>
                     `;
                     container.appendChild(div);
