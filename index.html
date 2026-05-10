@@ -4,15 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NRW PREDICTION MASTER</title>
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #daa520;
-            --dark-bg: #121212;
-            --card-bg: #1e1e1e;
+            --grad-1: #667eea;
+            --grad-2: #764ba2;
+            --grad-3: #f093fb;
+            --grad-4: #4facfe;
+            --grad-5: #00f2fe;
+            --grad-6: #fa709a;
+            --grad-7: #fee140;
+            --grad-success-1: #43e97b;
+            --grad-success-2: #38f9d7;
+            --grad-danger-1: #ff0844;
+            --grad-danger-2: #ffb199;
+            --bg-dark: #0f0c29;
+            --bg-mid: #302b63;
+            --bg-light: #24243e;
+            --glass-bg: rgba(255,255,255,0.05);
+            --glass-border: rgba(255,255,255,0.1);
             --text-main: #ffffff;
-            --text-muted: #b0b0b0;
-            --danger: #ff5252;
+            --text-muted: rgba(255,255,255,0.6);
             --big-color: #00e676;
             --small-color: #ff5252;
         }
@@ -21,44 +33,167 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
         }
 
+        /* ===== AURORA BACKGROUND ===== */
         body {
-            background-color: var(--dark-bg);
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             color: var(--text-main);
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* --- Container --- */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background:
+                radial-gradient(ellipse at 20% 30%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(240, 147, 251, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(79, 172, 254, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 60%, rgba(250, 112, 154, 0.08) 0%, transparent 40%);
+            animation: auroraFlow 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes auroraFlow {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-2%, 2%) rotate(1deg); }
+            50% { transform: translate(2%, -1%) rotate(-1deg); }
+            75% { transform: translate(-1%, -2%) rotate(0.5deg); }
+        }
+
+        /* ===== FLOATING PARTICLES ===== */
+        .particles {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 4px; height: 4px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 50%;
+            animation: floatParticle linear infinite;
+        }
+        .particle:nth-child(1) { left: 10%; animation-duration: 15s; animation-delay: 0s; width: 6px; height: 6px; }
+        .particle:nth-child(2) { left: 20%; animation-duration: 18s; animation-delay: 2s; }
+        .particle:nth-child(3) { left: 35%; animation-duration: 12s; animation-delay: 4s; width: 8px; height: 8px; background: rgba(102,126,234,0.4); }
+        .particle:nth-child(4) { left: 50%; animation-duration: 20s; animation-delay: 1s; }
+        .particle:nth-child(5) { left: 65%; animation-duration: 16s; animation-delay: 3s; width: 5px; height: 5px; background: rgba(240,147,251,0.4); }
+        .particle:nth-child(6) { left: 80%; animation-duration: 14s; animation-delay: 5s; }
+        .particle:nth-child(7) { left: 90%; animation-duration: 22s; animation-delay: 0s; width: 7px; height: 7px; background: rgba(79,172,254,0.3); }
+        .particle:nth-child(8) { left: 5%; animation-duration: 17s; animation-delay: 6s; }
+        .particle:nth-child(9) { left: 45%; animation-duration: 19s; animation-delay: 2s; width: 4px; height: 4px; background: rgba(250,112,154,0.3); }
+        .particle:nth-child(10) { left: 75%; animation-duration: 13s; animation-delay: 4s; }
+
+        @keyframes floatParticle {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ===== GLASS CARD ===== */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+        }
+
+        /* ===== GRADIENT BUTTON ===== */
+        .gradient-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .gradient-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        .gradient-btn:hover::before {
+            left: 100%;
+        }
+        .gradient-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+        .gradient-btn:active {
+            transform: translateY(0) scale(0.98);
+        }
+
+        /* ===== GRADIENT TEXT ===== */
+        .gradient-text {
+            background: linear-gradient(135deg, #667eea 0%, #f093fb 50%, #4facfe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .gradient-text-warm {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== CONTAINER ===== */
         .app-container {
             width: 100%;
             max-width: 480px;
-            background-color: var(--card-bg);
+            background: linear-gradient(180deg, rgba(15,12,41,0.95) 0%, rgba(48,43,99,0.95) 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             position: relative;
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            box-shadow: 0 0 40px rgba(102, 126, 234, 0.2);
+            z-index: 2;
         }
 
         @media (min-width: 500px) {
             .app-container {
                 min-height: auto;
                 height: 90vh;
-                border-radius: 15px;
+                border-radius: 20px;
                 overflow: hidden;
+                border: 1px solid rgba(255,255,255,0.1);
             }
         }
 
-        /* --- Splash / Login Animation --- */
+        /* ===== SPLASH SCREEN ===== */
         .splash-screen {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 50%, #0f0f0f 100%);
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -71,35 +206,92 @@
             visibility: hidden;
             pointer-events: none;
         }
-        .login-anim-circle {
-            width: 80px;
-            height: 80px;
-            border: 3px solid rgba(218, 165, 32, 0.3);
-            border-top: 3px solid var(--primary);
+        .splash-spinner {
+            width: 90px; height: 90px;
             border-radius: 50%;
-            animation: loginSpin 1s linear infinite, loginPulse 1.5s ease-in-out infinite;
-            margin-bottom: 20px;
+            position: relative;
+            margin-bottom: 30px;
         }
-        @keyframes loginSpin {
+        .splash-spinner::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea, #f093fb, #4facfe, #667eea);
+            background-size: 300% 300%;
+            animation: gradientRotate 3s linear infinite;
+            z-index: -1;
+        }
+        .splash-spinner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0f0c29, #302b63);
+        }
+        .splash-spinner-inner {
+            position: absolute;
+            inset: 8px;
+            border-radius: 50%;
+            border: 3px solid transparent;
+            border-top-color: #667eea;
+            border-right-color: #f093fb;
+            animation: spin 1s linear infinite;
+            z-index: 1;
+        }
+        @keyframes gradientRotate {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        @keyframes loginPulse {
-            0%, 100% { box-shadow: 0 0 10px rgba(218, 165, 32, 0.3); }
-            50% { box-shadow: 0 0 30px rgba(218, 165, 32, 0.7); }
+        .splash-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            animation: fadeInUp 1s ease forwards, glowPulse 2s ease-in-out infinite 1s;
+            opacity: 0;
         }
-        .splash-text {
-            font-size: 1.2rem;
+        .splash-subtitle {
+            font-size: 0.85rem;
             color: var(--text-muted);
-            animation: fadeInUp 1s ease forwards;
+            margin-top: 10px;
+            animation: fadeInUp 1s ease 0.3s forwards;
             opacity: 0;
         }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes glowPulse {
+            0%, 100% { filter: brightness(1); }
+            50% { filter: brightness(1.3); }
+        }
 
-        /* --- Logo & Header with Glow --- */
+        /* ===== HEADER ===== */
+        header {
+            padding: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(102,126,234,0.2) 0%, rgba(118,75,162,0.2) 100%);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 200%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            animation: shimmer 4s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
         .logo-container {
             display: flex;
             flex-direction: column;
@@ -107,118 +299,148 @@
             justify-content: center;
             gap: 12px;
             margin-bottom: 5px;
-        }
-        #app-logo {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary);
-            box-shadow: 0 0 15px rgba(218, 165, 32, 0.4);
-            background: #1a1a1a;
-            display: none;
-        }
-        #app-logo.show {
-            display: block;
+            position: relative;
+            z-index: 1;
         }
         .css-logo {
-            width: 70px;
-            height: 70px;
+            width: 70px; height: 70px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
-            border: 3px solid var(--primary);
-            box-shadow: 0 0 15px rgba(218, 165, 32, 0.4);
+            background: linear-gradient(135deg, rgba(102,126,234,0.3), rgba(240,147,251,0.3));
+            border: 2px solid rgba(102,126,234,0.6);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: var(--primary);
-            letter-spacing: 1px;
-        }
-        header {
-            padding: 20px;
-            text-align: center;
-            background: linear-gradient(45deg, #000000, #2a2a2a);
-            border-bottom: 2px solid var(--primary);
-        }
-        header h1 {
             font-size: 1.3rem;
-            color: var(--primary);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            animation: nameGlow 3s ease-in-out infinite alternate;
+            font-weight: 800;
+            color: white;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px rgba(102,126,234,0.3), inset 0 0 20px rgba(240,147,251,0.1);
+            animation: logoGlow 3s ease-in-out infinite;
         }
-        @keyframes nameGlow {
-            0% { text-shadow: 0 0 5px rgba(218, 165, 32, 0.4), 0 0 10px rgba(218, 165, 32, 0.2); }
-            100% { text-shadow: 0 0 20px rgba(218, 165, 32, 0.9), 0 0 40px rgba(218, 165, 32, 0.5), 0 0 60px rgba(218, 165, 32, 0.3); }
+        @keyframes logoGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(102,126,234,0.3), inset 0 0 20px rgba(240,147,251,0.1); }
+            50% { box-shadow: 0 0 30px rgba(102,126,234,0.5), inset 0 0 30px rgba(240,147,251,0.2); }
+        }
+        #app-logo {
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(102,126,234,0.6);
+            box-shadow: 0 0 20px rgba(102,126,234,0.3);
+            display: none;
+        }
+        #app-logo.show { display: block; }
+        header h1 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            z-index: 1;
         }
 
-        /* --- Screens Management --- */
+        /* ===== SCREENS ===== */
         .screen {
             display: none;
             flex: 1;
             padding: 20px;
             flex-direction: column;
             overflow-y: auto;
+            position: relative;
+            z-index: 2;
         }
         .screen.active {
             display: flex;
-            animation: fadeIn 0.3s ease;
+            animation: screenFadeIn 0.4s ease;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes screenFadeIn {
+            from { opacity: 0; transform: translateY(15px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        /* --- Forms & Inputs --- */
+        /* ===== FORMS ===== */
         .form-group { margin-bottom: 20px; }
         label {
             display: block;
             margin-bottom: 8px;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.85rem;
+            font-weight: 500;
         }
         input, select, textarea {
             width: 100%;
-            padding: 12px;
-            background-color: #2c2c2c;
-            border: 1px solid #444;
+            padding: 14px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
             color: white;
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1rem;
             outline: none;
+            transition: all 0.3s ease;
         }
-        input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+        input:focus, select:focus, textarea:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102,126,234,0.2), 0 0 20px rgba(102,126,234,0.1);
+            background: rgba(255,255,255,0.08);
+        }
+        input::placeholder { color: rgba(255,255,255,0.3); }
         button {
             width: 100%;
-            padding: 12px;
-            background-color: var(--primary);
-            color: #000;
+            padding: 14px;
             border: none;
-            border-radius: 8px;
-            font-weight: bold;
+            border-radius: 12px;
+            font-weight: 600;
             font-size: 1rem;
             cursor: pointer;
-            transition: transform 0.1s, opacity 0.2s;
+            transition: all 0.3s ease;
         }
-        button:active { transform: scale(0.98); }
-        button.secondary { background-color: #444; color: white; margin-top: 10px; }
-        button.danger { background-color: var(--danger); color: white; }
+        button.secondary {
+            background: rgba(255,255,255,0.08);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.15);
+            margin-top: 10px;
+        }
+        button.secondary:hover {
+            background: rgba(255,255,255,0.15);
+            transform: translateY(-1px);
+        }
+        button.danger {
+            background: linear-gradient(135deg, #ff0844, #ffb199);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255,8,68,0.3);
+        }
+        button.danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,8,68,0.5);
+        }
 
-        /* --- Cards & Lists --- */
+        /* ===== CARDS ===== */
         .card {
-            background-color: #2c2c2c;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 12px;
             margin-bottom: 15px;
-            border-left: 4px solid var(--primary);
+            border-left: 3px solid #667eea;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            animation: cardSlideIn 0.4s ease;
         }
-        .card h3 { font-size: 1.1rem; margin-bottom: 5px; }
+        .card:hover {
+            transform: translateX(5px);
+            border-left-width: 5px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        @keyframes cardSlideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .card h3 { font-size: 1.05rem; margin-bottom: 5px; }
         .card p { font-size: 0.9rem; color: var(--text-muted); line-height: 1.4; }
         .timestamp {
-            font-size: 0.75rem;
-            color: #666;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.4);
             margin-top: 8px;
             display: block;
             text-align: right;
@@ -228,125 +450,173 @@
             color: var(--text-muted);
             margin-top: 50px;
             font-style: italic;
+            animation: fadeIn 0.5s ease;
         }
 
-        /* --- Admin Tabs --- */
+        /* ===== ADMIN NAV ===== */
         .admin-nav {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             margin-bottom: 20px;
             flex-wrap: wrap;
         }
         .nav-btn {
             flex: 1;
-            padding: 10px;
-            background: #333;
-            color: #aaa;
-            font-size: 0.85rem;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.6);
+            font-size: 0.8rem;
             min-width: 80px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
-        .nav-btn.active { background: var(--primary); color: black; }
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background: linear-gradient(90deg, #667eea, #f093fb);
+            transition: width 0.3s ease;
+        }
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        .nav-btn:hover::before {
+            width: 100%;
+        }
+        .nav-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.4);
+        }
+        .nav-btn.active::before { display: none; }
 
-        /* --- Toast Notification --- */
+        /* ===== TOAST ===== */
         .toast {
             position: absolute;
             bottom: 20px;
             left: 50%;
-            transform: translateX(-50%);
-            background-color: #333;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, rgba(102,126,234,0.9), rgba(118,75,162,0.9));
+            backdrop-filter: blur(20px);
             color: white;
-            padding: 10px 20px;
-            border-radius: 20px;
+            padding: 12px 24px;
+            border-radius: 50px;
             font-size: 0.9rem;
+            font-weight: 500;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             white-space: nowrap;
             z-index: 100;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
+            border: 1px solid rgba(255,255,255,0.2);
         }
-        .toast.show { opacity: 1; }
-
-        /* --- Loading Spinner --- */
-        .loader {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary);
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            animation: spin 1s linear infinite;
-            margin: 20px auto;
-            display: none;
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* --- Chat Button Animation --- */
+        /* ===== CHAT FLOAT BUTTON ===== */
         .chat-float-btn {
             position: absolute;
             bottom: 80px;
             right: 20px;
-            width: 60px;
-            height: 60px;
+            width: 60px; height: 60px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), #b8860b);
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            background-size: 200% 200%;
             border: none;
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4);
-            animation: chatPulse 2s ease-in-out infinite;
+            box-shadow: 0 4px 20px rgba(102,126,234,0.5);
+            animation: chatPulse 2s ease-in-out infinite, gradientShift 4s ease infinite;
             z-index: 90;
-            transition: transform 0.2s;
+            transition: all 0.3s ease;
+            color: white;
         }
-        .chat-float-btn:hover { transform: scale(1.1); }
+        .chat-float-btn:hover {
+            transform: scale(1.15) rotate(10deg);
+            box-shadow: 0 8px 30px rgba(102,126,234,0.7);
+        }
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
         @keyframes chatPulse {
-            0%, 100% { box-shadow: 0 4px 15px rgba(218, 165, 32, 0.4); }
-            50% { box-shadow: 0 4px 25px rgba(218, 165, 32, 0.8), 0 0 15px rgba(218, 165, 32, 0.5); }
+            0%, 100% { box-shadow: 0 4px 20px rgba(102,126,234,0.5); }
+            50% { box-shadow: 0 4px 30px rgba(102,126,234,0.8), 0 0 20px rgba(240,147,251,0.4); }
         }
         .chat-badge {
             position: absolute;
-            top: -5px;
-            right: -5px;
-            background: var(--danger);
+            top: -5px; right: -5px;
+            background: linear-gradient(135deg, #ff0844, #ffb199);
             color: white;
             font-size: 0.7rem;
-            width: 22px;
-            height: 22px;
+            width: 22px; height: 22px;
             border-radius: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: bold;
             animation: badgeBounce 1s ease infinite;
+            box-shadow: 0 2px 8px rgba(255,8,68,0.5);
         }
         @keyframes badgeBounce {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+            50% { transform: scale(1.25); }
         }
 
-        /* --- Chat Modal --- */
+        /* ===== CHAT OVERLAY ===== */
         .chat-overlay {
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.85);
+            background: rgba(15, 12, 41, 0.95);
+            backdrop-filter: blur(30px);
             display: none;
             flex-direction: column;
             z-index: 200;
-            animation: fadeIn 0.3s ease;
+            animation: chatFadeIn 0.3s ease;
         }
         .chat-overlay.active { display: flex; }
+        @keyframes chatFadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
         .chat-header {
             padding: 15px 20px;
-            background: linear-gradient(45deg, #000, #2a2a2a);
-            border-bottom: 2px solid var(--primary);
+            background: linear-gradient(135deg, rgba(102,126,234,0.3), rgba(118,75,162,0.3));
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        .chat-header h3 { color: var(--primary); font-size: 1.1rem; }
-        .chat-close { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; width: auto; padding: 0; }
+        .chat-header h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .chat-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            width: auto;
+            padding: 0 5px;
+            transition: all 0.3s ease;
+        }
+        .chat-close:hover {
+            color: #f093fb;
+            transform: rotate(90deg);
+        }
         .chat-messages {
             flex: 1;
             overflow-y: auto;
@@ -357,36 +627,44 @@
         }
         .chat-msg {
             max-width: 80%;
-            padding: 10px 14px;
-            border-radius: 12px;
+            padding: 12px 16px;
+            border-radius: 16px;
             font-size: 0.9rem;
             line-height: 1.4;
             word-wrap: break-word;
+            animation: msgSlideIn 0.3s ease;
+            position: relative;
+        }
+        @keyframes msgSlideIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         .chat-msg.user {
             align-self: flex-end;
-            background: linear-gradient(135deg, var(--primary), #b8860b);
-            color: #000;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
             border-bottom-right-radius: 4px;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.3);
         }
         .chat-msg.admin {
             align-self: flex-start;
-            background: #3a3a3a;
+            background: rgba(255,255,255,0.08);
             color: white;
             border-bottom-left-radius: 4px;
-            border-left: 3px solid var(--primary);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         .chat-msg .msg-time {
             font-size: 0.65rem;
-            opacity: 0.7;
-            margin-top: 4px;
+            opacity: 0.6;
+            margin-top: 6px;
             display: block;
         }
         .chat-input-area {
             padding: 15px;
-            border-top: 1px solid #444;
+            border-top: 1px solid rgba(255,255,255,0.1);
             display: flex;
             gap: 10px;
+            background: rgba(255,255,255,0.02);
         }
         .chat-input-area input {
             flex: 1;
@@ -394,27 +672,27 @@
         }
         .chat-input-area button {
             width: auto;
-            padding: 12px 20px;
+            padding: 14px 22px;
         }
         .chat-welcome {
             text-align: center;
             color: var(--text-muted);
             font-size: 0.85rem;
             padding: 20px;
+            animation: fadeIn 0.5s ease;
         }
         .typing-indicator {
             display: none;
             align-self: flex-start;
-            background: #3a3a3a;
-            padding: 10px 14px;
-            border-radius: 12px;
+            background: rgba(255,255,255,0.08);
+            padding: 12px 16px;
+            border-radius: 16px;
             border-bottom-left-radius: 4px;
         }
         .typing-indicator span {
             display: inline-block;
-            width: 6px;
-            height: 6px;
-            background: var(--primary);
+            width: 7px; height: 7px;
+            background: linear-gradient(135deg, #667eea, #f093fb);
             border-radius: 50%;
             margin: 0 2px;
             animation: typingBounce 1.4s ease-in-out infinite;
@@ -426,94 +704,89 @@
             30% { transform: translateY(-8px); }
         }
 
-        /* --- Admin Chat Panel --- */
+        /* ===== ADMIN CHAT ===== */
         .msg-delete-btn {
             display: inline-block;
             margin-left: 8px;
-            background: #ff4757;
+            background: linear-gradient(135deg, #ff0844, #ffb199);
             color: white;
             border: none;
-            border-radius: 4px;
-            padding: 2px 8px;
+            border-radius: 6px;
+            padding: 3px 10px;
             font-size: 0.7rem;
             cursor: pointer;
             opacity: 0.7;
-            transition: opacity 0.2s;
+            transition: all 0.2s ease;
         }
-        .msg-delete-btn:hover {
-            opacity: 1;
-            background: #ff3344;
-        }
-        .chat-users-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        .msg-delete-btn:hover { opacity: 1; transform: scale(1.05); }
+        .chat-users-list { display: flex; flex-direction: column; gap: 10px; }
         .chat-user-card {
-            background: #2c2c2c;
-            padding: 12px;
-            border-radius: 8px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(10px);
+            padding: 14px;
+            border-radius: 12px;
             cursor: pointer;
-            transition: background 0.2s;
-            border-left: 4px solid #555;
+            transition: all 0.3s ease;
+            border-left: 3px solid rgba(255,255,255,0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            animation: cardSlideIn 0.3s ease;
         }
-        .chat-user-card:hover { background: #363636; }
-        .chat-user-card.unread { border-left-color: var(--danger); }
-        .chat-user-card.seen { border-left-color: var(--primary); }
-        .chat-user-info h4 { font-size: 0.95rem; margin-bottom: 3px; }
-        .chat-user-info p { font-size: 0.8rem; color: #888; }
-        .chat-user-meta {
-            text-align: right;
+        .chat-user-card:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateX(5px);
         }
+        .chat-user-card.unread { border-left-color: #ff0844; }
+        .chat-user-card.seen { border-left-color: #667eea; }
+        .chat-user-info h4 { font-size: 0.9rem; margin-bottom: 3px; }
+        .chat-user-info p { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+        .chat-user-meta { text-align: right; }
         .chat-user-meta .unread-count {
-            background: var(--danger);
+            background: linear-gradient(135deg, #ff0844, #ffb199);
             color: white;
             font-size: 0.7rem;
-            padding: 2px 8px;
+            padding: 3px 10px;
             border-radius: 10px;
+            font-weight: 600;
         }
         .chat-user-meta .seen-tag {
-            background: var(--primary);
-            color: #000;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
             font-size: 0.7rem;
-            padding: 2px 8px;
+            padding: 3px 10px;
             border-radius: 10px;
         }
-        .admin-chat-thread {
-            display: none;
-            flex-direction: column;
-            height: 100%;
-        }
+        .admin-chat-thread { display: none; flex-direction: column; height: 100%; }
         .admin-chat-thread.active { display: flex; }
         .back-btn {
-            background: #333;
+            background: rgba(255,255,255,0.08);
             color: white;
             width: auto;
-            padding: 8px 15px;
+            padding: 10px 18px;
             font-size: 0.85rem;
             margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
         }
+        .back-btn:hover { background: rgba(255,255,255,0.15); }
         .msg-status {
             font-size: 0.65rem;
-            margin-top: 3px;
+            margin-top: 4px;
             display: flex;
             align-items: center;
-            gap: 3px;
+            gap: 4px;
         }
-        .msg-status.seen { color: var(--primary); }
-        .msg-status.unseen { color: #888; }
+        .msg-status.seen { color: #667eea; }
+        .msg-status.unseen { color: rgba(255,255,255,0.4); }
 
         /* ============================================================
-           GAME PERIOD PREDICTION STYLES - MAIN USER SCREEN
+           GAME PREDICTION STYLES - GRADIENT COLORFUL EDITION
            ============================================================ */
         #user-screen {
             overflow: hidden;
             padding: 0;
         }
-        
+
         .game-container {
             flex: 1;
             display: flex;
@@ -521,265 +794,402 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
-            gap: 20px;
+            gap: 18px;
         }
-        
+
+        /* Period Card with Animated Gradient Border */
         .game-period-card {
-            background: linear-gradient(145deg, #1a1a1a, #252525);
-            border: 2px solid var(--primary);
-            border-radius: 16px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
             padding: 25px;
             width: 100%;
             text-align: center;
-            box-shadow: 0 0 30px rgba(218, 165, 32, 0.15);
-            animation: cardPulse 2s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+            animation: cardGlowPulse 3s ease-in-out infinite;
         }
-        @keyframes cardPulse {
-            0%, 100% { box-shadow: 0 0 30px rgba(218, 165, 32, 0.15); }
-            50% { box-shadow: 0 0 40px rgba(218, 165, 32, 0.3); }
+        .game-period-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #667eea, #f093fb, #4facfe, #667eea);
+            background-size: 300% 300%;
+            animation: gradientRotate 4s linear infinite;
+            z-index: -1;
+            opacity: 0.5;
         }
-        
+        .game-period-card::after {
+            content: '';
+            position: absolute;
+            inset: 1px;
+            border-radius: 19px;
+            background: linear-gradient(180deg, rgba(15,12,41,0.95), rgba(48,43,99,0.95));
+            z-index: -1;
+        }
+        @keyframes cardGlowPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(102,126,234,0.2); }
+            50% { box-shadow: 0 0 40px rgba(240,147,251,0.3), 0 0 60px rgba(102,126,234,0.2); }
+        }
+
         .game-period-label {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 3px;
-            margin-bottom: 10px;
+            letter-spacing: 4px;
+            margin-bottom: 12px;
+            position: relative;
+            z-index: 1;
         }
-        
+
         .game-period-number {
-            font-size: 1.4rem;
-            font-weight: bold;
-            color: var(--primary);
-            letter-spacing: 2px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 3px;
             word-break: break-all;
             font-family: 'Courier New', monospace;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(135deg, #4facfe, #00f2fe, #667eea);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            animation: neonGlow 2s ease-in-out infinite;
         }
-        
+        @keyframes neonGlow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(79,172,254,0.5)); }
+            50% { filter: drop-shadow(0 0 15px rgba(79,172,254,0.8)) drop-shadow(0 0 30px rgba(102,126,234,0.4)); }
+        }
+
+        /* Prediction Card */
         .prediction-card {
-            background: linear-gradient(145deg, #1a1a1a, #252525);
-            border: 2px solid #333;
-            border-radius: 16px;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
             padding: 30px;
             width: 100%;
             text-align: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
         }
-        
+        .prediction-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(102,126,234,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .prediction-card:hover::before { opacity: 1; }
+
         .prediction-label {
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             margin-bottom: 15px;
+            position: relative;
         }
-        
+
         .prediction-value {
-            font-size: 3.5rem;
-            font-weight: bold;
-            letter-spacing: 5px;
+            font-size: 4rem;
+            font-weight: 900;
+            letter-spacing: 8px;
             text-transform: uppercase;
-            animation: predictPop 0.5s ease;
+            animation: predictPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            position: relative;
+            display: inline-block;
         }
         @keyframes predictPop {
-            0% { transform: scale(0.5); opacity: 0; }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
+            0% { transform: scale(0.3); opacity: 0; filter: blur(10px); }
+            60% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; filter: blur(0); }
         }
-        
+        @keyframes predictFlash {
+            0% { filter: brightness(1); }
+            50% { filter: brightness(2); }
+            100% { filter: brightness(1); }
+        }
+
         .prediction-value.BIG {
-            color: var(--big-color);
-            text-shadow: 0 0 30px rgba(0, 230, 118, 0.4);
+            background: linear-gradient(135deg, #43e97b, #38f9d7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(67,233,123,0.5));
+            animation: predictPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), bigGlow 2s ease-in-out infinite 0.6s;
         }
         .prediction-value.SMALL {
-            color: var(--small-color);
-            text-shadow: 0 0 30px rgba(255, 82, 82, 0.4);
+            background: linear-gradient(135deg, #ff0844, #ffb199);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 20px rgba(255,8,68,0.5));
+            animation: predictPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55), smallGlow 2s ease-in-out infinite 0.6s;
         }
-        
+        @keyframes bigGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(67,233,123,0.5)); }
+            50% { filter: drop-shadow(0 0 30px rgba(67,233,123,0.8)) drop-shadow(0 0 60px rgba(56,249,215,0.3)); }
+        }
+        @keyframes smallGlow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255,8,68,0.5)); }
+            50% { filter: drop-shadow(0 0 30px rgba(255,8,68,0.8)) drop-shadow(0 0 60px rgba(255,177,153,0.3)); }
+        }
+
+        /* Timer with Circular Ring */
         .timer-card {
-            background: #1a1a1a;
-            border-radius: 12px;
-            padding: 15px 25px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 16px;
+            padding: 18px 30px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            border: 1px solid #333;
+            gap: 12px;
+            border: 1px solid rgba(255,255,255,0.08);
+            position: relative;
+            overflow: hidden;
         }
-        
+        .timer-card::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0;
+            width: var(--progress, 0%);
+            height: 100%;
+            background: linear-gradient(90deg, rgba(102,126,234,0.2), rgba(240,147,251,0.1));
+            transition: width 1s linear;
+            border-radius: 16px;
+        }
         .timer-label {
             font-size: 0.85rem;
             color: var(--text-muted);
+            position: relative;
+            z-index: 1;
         }
-        
         .timer-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 800;
             font-family: 'Courier New', monospace;
-            min-width: 50px;
+            min-width: 45px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            background: linear-gradient(135deg, #f093fb, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: timerPulse 1s ease-in-out infinite;
         }
-        
+        @keyframes timerPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* History Section */
         .history-section {
             width: 100%;
-            max-height: 200px;
+            max-height: 180px;
             overflow-y: auto;
         }
-        .history-section::-webkit-scrollbar {
-            width: 4px;
-        }
+        .history-section::-webkit-scrollbar { width: 4px; }
         .history-section::-webkit-scrollbar-thumb {
-            background: #444;
+            background: linear-gradient(180deg, #667eea, #f093fb);
             border-radius: 4px;
         }
-        
         .history-title {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             margin-bottom: 10px;
             text-align: center;
         }
-        
-        .history-list {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        
+        .history-list { display: flex; flex-direction: column; gap: 6px; }
         .history-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 12px;
-            background: #252525;
-            border-radius: 8px;
+            padding: 10px 14px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 10px;
             font-size: 0.85rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            animation: historySlideIn 0.3s ease;
+            transition: all 0.2s ease;
         }
-        
+        .history-item:hover {
+            background: rgba(255,255,255,0.08);
+            transform: translateX(5px);
+        }
+        @keyframes historySlideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
         .history-period {
-            color: var(--text-muted);
+            color: rgba(255,255,255,0.5);
             font-family: 'Courier New', monospace;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
         }
-        
         .history-result {
-            font-weight: bold;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .history-result.BIG {
-            background: rgba(0, 230, 118, 0.15);
-            color: var(--big-color);
+            background: linear-gradient(135deg, rgba(67,233,123,0.2), rgba(56,249,215,0.1));
+            color: #43e97b;
+            border: 1px solid rgba(67,233,123,0.3);
         }
         .history-result.SMALL {
-            background: rgba(255, 82, 82, 0.15);
-            color: var(--small-color);
+            background: linear-gradient(135deg, rgba(255,8,68,0.2), rgba(255,177,153,0.1));
+            color: #ff0844;
+            border: 1px solid rgba(255,8,68,0.3);
         }
-        
+
+        /* User Info Bar */
         .user-info-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 20px;
-            background: linear-gradient(45deg, #000, #1a1a1a);
-            border-bottom: 1px solid #333;
+            padding: 14px 20px;
+            background: linear-gradient(90deg, rgba(102,126,234,0.15), rgba(118,75,162,0.1));
+            border-bottom: 1px solid rgba(255,255,255,0.08);
             flex-shrink: 0;
         }
-        .user-info-bar span {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
+        .user-info-bar span { font-size: 0.8rem; color: var(--text-muted); }
         .user-info-bar #session-timer {
-            color: var(--primary);
-            font-size: 0.75rem;
+            background: linear-gradient(135deg, #f093fb, #4facfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-size: 0.78rem;
+            font-weight: 600;
         }
 
-        /* Hide login chat on non-login screens */
-        .login-chat-btn {
-            display: none;
-        }
-        #login-screen.active ~ .login-chat-btn {
-            display: flex;
-        }
-
-        /* Device lock warning */
+        /* Device Warning */
         .device-warning {
-            background: rgba(255, 82, 82, 0.1);
-            border: 1px solid var(--danger);
-            border-radius: 8px;
-            padding: 12px;
+            background: linear-gradient(135deg, rgba(255,8,68,0.1), rgba(255,177,153,0.05));
+            border: 1px solid rgba(255,8,68,0.4);
+            border-radius: 12px;
+            padding: 14px;
             margin-top: 15px;
-            color: var(--danger);
+            color: #ff6b81;
             font-size: 0.85rem;
             text-align: center;
             display: none;
+            animation: shake 0.5s ease;
         }
-        .device-warning.show {
-            display: block;
-            animation: fadeIn 0.3s ease;
+        .device-warning.show { display: block; }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-10px); }
+            40% { transform: translateX(10px); }
+            60% { transform: translateX(-5px); }
+            80% { transform: translateX(5px); }
+        }
+
+        .login-chat-btn { display: none; }
+        #login-screen.active ~ .login-chat-btn { display: flex; }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #667eea, #764ba2);
+            border-radius: 6px;
+        }
+
+        /* Selection color */
+        ::selection {
+            background: rgba(102,126,234,0.4);
+            color: white;
         }
     </style>
-<base target="_blank">
-<base target="_blank">
 </head>
 <body>
+
+    <!-- Floating Particles -->
+    <div class="particles">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+    </div>
 
     <div class="app-container">
         <!-- SPLASH SCREEN -->
         <div id="splash-screen" class="splash-screen">
-            <div class="login-anim-circle"></div>
-            <div class="splash-text">NRW PREDICTION MASTER</div>
+            <div class="splash-spinner">
+                <div class="splash-spinner-inner"></div>
+            </div>
+            <div class="splash-title gradient-text">NRW PREDICTION</div>
+            <div class="splash-subtitle">Loading your experience...</div>
         </div>
 
+        <!-- HEADER -->
         <header>
             <div class="logo-container">
-                <img id="app-logo" src="" alt="NRW PREDICTION MASTER Logo" onload="this.classList.add('show')">
+                <img id="app-logo" src="" alt="NRW Logo" onload="this.classList.add('show')">
                 <div id="css-logo" class="css-logo">NRW</div>
             </div>
-            <h1>NRW PREDICTION MASTER</h1>
+            <h1 class="gradient-text">NRW PREDICTION MASTER</h1>
         </header>
 
-        <!-- TOAST NOTIFICATION -->
+        <!-- TOAST -->
         <div id="toast" class="toast">Message here</div>
 
-        <!-- SCREEN 1: LOGIN -->
+        <!-- LOGIN SCREEN -->
         <div id="login-screen" class="screen active">
-            <h2 style="text-align: center; margin-bottom: 20px;">Login Required</h2>
-            <div class="form-group">
-                <label>Enter Special Code</label>
-                <input type="text" id="login-code" placeholder="Ex: 1234-ABCD">
+            <div class="glass-card" style="padding: 25px; margin-top: 10px;">
+                <h2 style="text-align: center; margin-bottom: 25px; font-size: 1.3rem;" class="gradient-text-warm">Login Required</h2>
+                <div class="form-group">
+                    <label>Enter Special Code</label>
+                    <input type="text" id="login-code" placeholder="Ex: 1234-ABCD" style="text-align: center; letter-spacing: 2px;">
+                </div>
+                <button class="gradient-btn" onclick="handleLogin()" style="padding: 16px; font-size: 1.05rem;">
+                    Login Now
+                </button>
+                <div id="device-warning" class="device-warning">
+                    This code is already being used on another device!
+                </div>
             </div>
-            <button onclick="handleLogin()">Login Now</button>
-            <div id="device-warning" class="device-warning">
-                This code is already being used on another device!
-            </div>
-            <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: #666;">
-               This is an all-in-one color prediction app. It is intended for users aged 18+ only and is meant for educational purposes only.
-
-If you don't have the special code, you can contact us to purchase it.
+            <p style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: rgba(255,255,255,0.4); line-height: 1.6;">
+                This is an all-in-one color prediction app.<br>Intended for users aged 18+ only.<br>Educational purposes only.<br><br>
+                Don't have a code? <span style="color: #f093fb;">Contact us to purchase.</span>
             </p>
         </div>
 
-        <!-- CHAT BUTTON ON LOGIN (only visible when login screen active via CSS) -->
+        <!-- CHAT BUTTON -->
         <button id="login-chat-btn" class="chat-float-btn login-chat-btn" onclick="openChat()" title="Live Chat Support">
-            💬
+            <span style="filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));">💬</span>
             <span id="chat-unread-badge" class="chat-badge" style="display:none">0</span>
         </button>
 
         <!-- CHAT OVERLAY -->
         <div id="chat-overlay" class="chat-overlay">
             <div class="chat-header">
-                <h3 id="chat-title">LIVE SUPPORT CHAT</h3>
+                <h3 class="gradient-text">LIVE SUPPORT CHAT</h3>
                 <button class="chat-close" onclick="closeChat()">&times;</button>
             </div>
             <div id="chat-messages" class="chat-messages">
                 <div class="chat-welcome">
-                    Special code Rate ___1 Day___200 Rupees
-& 7 Days____800 Rupees 
-     30 Days____4500 Rupees  .
+                    <div style="font-size: 1.2rem; margin-bottom: 10px;">👋 Welcome!</div>
+                    Special Code Rates:<br><br>
+                    <span style="color: #f093fb; font-weight: 600;">1 Day</span> — 200 Rupees<br>
+                    <span style="color: #4facfe; font-weight: 600;">7 Days</span> — 800 Rupees<br>
+                    <span style="color: #43e97b; font-weight: 600;">30 Days</span> — 4500 Rupees
                 </div>
             </div>
             <div id="typing-indicator" class="typing-indicator">
@@ -787,11 +1197,11 @@ If you don't have the special code, you can contact us to purchase it.
             </div>
             <div class="chat-input-area">
                 <input type="text" id="chat-input" placeholder="Type a message..." onkeypress="if(event.key==='Enter')sendChatMessage()">
-                <button onclick="sendChatMessage()">Send</button>
+                <button class="gradient-btn" onclick="sendChatMessage()">Send</button>
             </div>
         </div>
 
-        <!-- SCREEN 2: ADMIN PANEL -->
+        <!-- ADMIN SCREEN -->
         <div id="admin-screen" class="screen">
             <div class="admin-nav">
                 <button class="nav-btn active" onclick="switchAdminTab('codes')">Codes</button>
@@ -799,9 +1209,8 @@ If you don't have the special code, you can contact us to purchase it.
                 <button class="nav-btn" onclick="switchAdminTab('chats')">Chats</button>
             </div>
 
-            <!-- Tab: Generate Codes -->
             <div id="tab-codes" class="admin-tab">
-                <h3>Generate Code</h3>
+                <h3 style="margin-bottom: 5px;">Generate Code</h3>
                 <div class="form-group" style="margin-top: 15px;">
                     <label>Validity (Days)</label>
                     <select id="code-duration">
@@ -811,40 +1220,38 @@ If you don't have the special code, you can contact us to purchase it.
                         <option value="30">30 Days</option>
                     </select>
                 </div>
-                <button onclick="generateCode()">Generate New Code</button>
-                
+                <button class="gradient-btn" onclick="generateCode()">Generate New Code</button>
+
                 <div style="margin-top: 30px;">
-                    <h4>Active Codes</h4>
+                    <h4 style="margin-bottom: 10px;">Active Codes</h4>
                     <div id="codes-list" class="codes-list-container"></div>
                 </div>
             </div>
 
-            <!-- Tab: Users -->
             <div id="tab-users" class="admin-tab" style="display: none;">
-                <h3>Active Users</h3>
-                <p style="font-size: 0.8rem; color: #888; margin-bottom: 10px;">Users currently logged in with valid codes & device info.</p>
+                <h3 style="margin-bottom: 5px;">Active Users</h3>
+                <p style="font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 15px;">Users currently logged in with valid codes & device info.</p>
                 <div id="users-list"></div>
             </div>
 
-            <!-- Tab: Admin Chat Panel -->
             <div id="tab-chats" class="admin-tab" style="display: none;">
                 <div id="admin-chat-list-view">
-                    <h3>User Messages</h3>
-                    <p style="font-size: 0.8rem; color: #888; margin-bottom: 10px;">Click on a user to reply. Unread messages are marked red.</p>
+                    <h3 style="margin-bottom: 5px;">User Messages</h3>
+                    <p style="font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 15px;">Click on a user to reply. Unread messages are marked red.</p>
                     <div id="admin-chat-users-list" class="chat-users-list">
                         <div class="empty-state">No messages yet.</div>
                     </div>
                 </div>
                 <div id="admin-chat-thread" class="admin-chat-thread">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                        <button class="back-btn" onclick="backToChatList()" style="margin-bottom:0;">&larr; Back to Users</button>
-                        <button class="danger" onclick="deleteAllChatForUser()" style="width:auto; padding:8px 14px; font-size:0.8rem; margin-bottom:0; background:linear-gradient(135deg, #ff4757, #ff6b81);">🗑 Delete All Chat</button>
+                        <button class="back-btn" onclick="backToChatList()" style="margin-bottom:0;">&larr; Back</button>
+                        <button class="danger" onclick="deleteAllChatForUser()" style="width:auto; padding:10px 16px; font-size:0.8rem; margin-bottom:0;">Delete All Chat</button>
                     </div>
-                    <h4 id="admin-chat-user-id" style="margin-bottom:10px; color:var(--primary);">User</h4>
-                    <div id="admin-chat-messages" class="chat-messages" style="background:#1a1a1a; border-radius:8px;"></div>
+                    <h4 id="admin-chat-user-id" style="margin-bottom:10px;" class="gradient-text-warm">User</h4>
+                    <div id="admin-chat-messages" class="chat-messages" style="background:rgba(0,0,0,0.2); border-radius:12px;"></div>
                     <div class="chat-input-area">
                         <input type="text" id="admin-chat-input" placeholder="Type reply..." onkeypress="if(event.key==='Enter')sendAdminReply()">
-                        <button onclick="sendAdminReply()">Reply</button>
+                        <button class="gradient-btn" onclick="sendAdminReply()">Reply</button>
                     </div>
                 </div>
             </div>
@@ -852,42 +1259,40 @@ If you don't have the special code, you can contact us to purchase it.
             <button class="danger" onclick="logout()" style="margin-top: auto;">Logout</button>
         </div>
 
-        <!-- SCREEN 3: USER PANEL - GAME PERIOD PREDICTION -->
+        <!-- USER SCREEN - GAME PREDICTION -->
         <div id="user-screen" class="screen">
             <div class="user-info-bar">
-                <span>Game Prediction</span>
+                <span style="font-weight: 600;">Game Prediction</span>
                 <span id="session-timer">Checking...</span>
             </div>
-            
+
             <div class="game-container">
-                <!-- Game Period Card -->
+                <!-- Period Card -->
                 <div class="game-period-card">
                     <div class="game-period-label">Current Game Period</div>
-                    <div class="game-period-number" id="game-period-number">Loading...</div>
+                    <div class="game-period-number" id="game-period-number">202605101618</div>
                 </div>
-                
+
                 <!-- Prediction Card -->
                 <div class="prediction-card" id="prediction-card">
                     <div class="prediction-label">Prediction Result</div>
                     <div class="prediction-value" id="prediction-value">--</div>
                 </div>
-                
-                <!-- Countdown Timer -->
-                <div class="timer-card">
+
+                <!-- Timer -->
+                <div class="timer-card" id="timer-card">
                     <span class="timer-label">Next Period In:</span>
                     <span class="timer-value" id="countdown-timer">30</span>
                     <span class="timer-label">sec</span>
                 </div>
-                
+
                 <!-- History -->
                 <div class="history-section">
                     <div class="history-title">Recent Predictions</div>
-                    <div class="history-list" id="prediction-history">
-                        <!-- History items will be added here -->
-                    </div>
+                    <div class="history-list" id="prediction-history"></div>
                 </div>
             </div>
-            
+
             <div style="padding: 0 20px 20px 20px;">
                 <button class="secondary" onclick="logout()">Logout</button>
             </div>
@@ -912,29 +1317,84 @@ If you don't have the special code, you can contact us to purchase it.
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // Global State
         let currentUserCode = null;
         let currentUserRole = null;
         let sessionExpiryTime = 0;
         let chatUserId = null;
         let activeAdminChatUser = null;
         let chatListeners = {};
-        
-        // Game prediction state
+
+        // Game state
         let gameTimerInterval = null;
         let currentPeriodNumber = '';
         let predictionHistory = [];
-        const PERIOD_DURATION = 30; // 30 seconds per period
+        const PERIOD_DURATION = 30;
 
-        // --- DEVICE FINGERPRINTING (1 Device Only System) ---
+        // Subtract 60 from period number (game is 60 periods ahead)
+        const PERIOD_OFFSET = 60;
+
+        // Dynamic period number generation - IST (India) timezone, starts at 5:00 AM
+        function getISTTime() {
+            const now = new Date();
+            // IST = UTC + 5:30 (330 minutes)
+            const istOffset = 330;
+            const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+            return new Date(utc + (istOffset * 60000));
+        }
+
+        function getCurrentPeriodNumber() {
+            const ist = getISTTime();
+            let year = ist.getFullYear();
+            let month = ist.getMonth() + 1;
+            let day = ist.getDate();
+            const hours = ist.getHours();
+            const minutes = ist.getMinutes();
+            const seconds = ist.getSeconds();
+
+            let totalSeconds = hours * 3600 + minutes * 60 + seconds;
+
+            // If before 5:00 AM IST, use previous day's date and add 24 hours
+            if (hours < 5) {
+                const prev = new Date(ist);
+                prev.setDate(prev.getDate() - 1);
+                year = prev.getFullYear();
+                month = prev.getMonth() + 1;
+                day = prev.getDate();
+                totalSeconds += 24 * 3600;
+            }
+
+            // Period starts from 5:00 AM IST
+            const secondsSince5AM = totalSeconds - (5 * 3600);
+            const periodNum = Math.max(1, Math.floor(secondsSince5AM / 30) + 1 - PERIOD_OFFSET);
+
+            const monthStr = String(month).padStart(2, '0');
+            const dayStr = String(day).padStart(2, '0');
+            const periodStr = String(periodNum).padStart(4, '0');
+            return String(year) + monthStr + dayStr + periodStr;
+        }
+
+        function getRemainingSeconds() {
+            const ist = getISTTime();
+            const hours = ist.getHours();
+            const minutes = ist.getMinutes();
+            const seconds = ist.getSeconds();
+
+            let totalSeconds = hours * 3600 + minutes * 60 + seconds;
+            if (hours < 5) {
+                totalSeconds += 24 * 3600;
+            }
+
+            const secondsSince5AM = totalSeconds - (5 * 3600);
+            return PERIOD_DURATION - (secondsSince5AM % PERIOD_DURATION);
+        }
+
+        // ===== DEVICE FINGERPRINTING =====
         function generateDeviceId() {
             let deviceId = localStorage.getItem('nrw_device_id');
             if (!deviceId) {
-                // Generate a unique device ID based on browser info + random + timestamp
                 const navInfo = navigator.userAgent + navigator.language + screen.width + screen.height + screen.colorDepth;
                 const randomPart = Math.random().toString(36).substring(2, 15);
                 const timePart = Date.now().toString(36);
-                // Create a simple hash-like string
                 let hash = 0;
                 for (let i = 0; i < navInfo.length; i++) {
                     const char = navInfo.charCodeAt(i);
@@ -949,11 +1409,9 @@ If you don't have the special code, you can contact us to purchase it.
 
         const deviceId = generateDeviceId();
 
-        // --- LOGO CONFIG: Replace with your GitHub raw logo URL ---
         const LOGO_URL = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/logo.png';
         document.getElementById('app-logo').src = LOGO_URL;
 
-        // Generate a persistent chat user id
         function getChatUserId() {
             let uid = localStorage.getItem('safe_chat_uid');
             if (!uid) {
@@ -964,14 +1422,14 @@ If you don't have the special code, you can contact us to purchase it.
         }
         chatUserId = getChatUserId();
 
-        // --- SPLASH SCREEN ---
+        // ===== SPLASH SCREEN =====
         window.addEventListener('load', () => {
             setTimeout(() => {
                 document.getElementById('splash-screen').classList.add('hidden');
             }, 2500);
         });
 
-        // --- UTILITY FUNCTIONS ---
+        // ===== UTILITY FUNCTIONS =====
         function showToast(msg) {
             const t = document.getElementById('toast');
             t.textContent = msg;
@@ -1013,16 +1471,10 @@ If you don't have the special code, you can contact us to purchase it.
             return "Just now";
         }
 
-        // --- LOGIN & AUTH (WITH 1 DEVICE LOCK) ---
+        // ===== LOGIN & AUTH =====
         window.handleLogin = async () => {
             const inputCode = document.getElementById('login-code').value.trim().toUpperCase();
-            
-            if (!inputCode) {
-                showToast("Please enter a code");
-                return;
-            }
-
-            // Hide any previous warning
+            if (!inputCode) { showToast("Please enter a code"); return; }
             document.getElementById('device-warning').classList.remove('show');
 
             if (inputCode === 'ADMIN') {
@@ -1039,46 +1491,28 @@ If you don't have the special code, you can contact us to purchase it.
             if (snapshot.exists()) {
                 const codeData = snapshot.val();
                 const now = Date.now();
-                
                 if (now > codeData.expiresAt) {
                     showToast("Code has expired!");
                     remove(codeRef);
                     return;
                 }
-
-                // --- 1 DEVICE ONLY CHECK ---
-                // If this code already has a deviceId assigned
                 if (codeData.deviceId && codeData.deviceId !== deviceId) {
-                    // Code is being used on a different device
                     document.getElementById('device-warning').classList.add('show');
                     showToast("Code already used on another device!");
                     return;
                 }
-
-                // Store device binding in Firebase
-                await update(codeRef, {
-                    deviceId: deviceId,
-                    deviceBoundAt: now
-                });
-
+                await update(codeRef, { deviceId: deviceId, deviceBoundAt: now });
                 currentUserCode = inputCode;
                 currentUserRole = 'user';
                 sessionExpiryTime = codeData.expiresAt;
-                
-                // Store device-code binding locally
                 localStorage.setItem('nrw_bound_code', inputCode);
-                
                 update(ref(db, 'users/' + inputCode), {
-                    lastSeen: now,
-                    status: 'online',
-                    deviceId: deviceId
+                    lastSeen: now, status: 'online', deviceId: deviceId
                 });
-
                 localStorage.setItem('safe_chat_code', inputCode);
                 switchScreen('user-screen');
                 startSessionCheck();
-                startGamePrediction(); // Start the game period system
-                
+                startGamePrediction();
             } else {
                 showToast("Invalid Code!");
             }
@@ -1086,9 +1520,7 @@ If you don't have the special code, you can contact us to purchase it.
 
         window.logout = () => {
             if (currentUserRole === 'user' && currentUserCode) {
-                update(ref(db, 'users/' + currentUserCode), {
-                    status: 'offline'
-                });
+                update(ref(db, 'users/' + currentUserCode), { status: 'offline' });
             }
             if (chatUserId) {
                 update(ref(db, 'chatUsers/' + chatUserId), { status: 'offline', lastSeen: Date.now() });
@@ -1107,19 +1539,15 @@ If you don't have the special code, you can contact us to purchase it.
             updateChatBadge(0);
         };
 
-        // --- SESSION MANAGEMENT ---
         function startSessionCheck() {
             const timerEl = document.getElementById('session-timer');
-            
             const checkInterval = setInterval(() => {
                 if (!currentUserCode || currentUserRole !== 'user') {
                     clearInterval(checkInterval);
                     return;
                 }
-
                 const now = Date.now();
                 const timeLeft = sessionExpiryTime - now;
-
                 if (timeLeft <= 0) {
                     clearInterval(checkInterval);
                     showToast("Session Expired");
@@ -1132,7 +1560,6 @@ If you don't have the special code, you can contact us to purchase it.
             }, 1000);
         }
 
-        // Auto Login on Load (with device check)
         window.onload = () => {
             const savedCode = localStorage.getItem('safe_chat_code');
             const boundCode = localStorage.getItem('nrw_bound_code');
@@ -1142,96 +1569,86 @@ If you don't have the special code, you can contact us to purchase it.
             }
         };
 
-        // ============================================================
-        // GAME PERIOD PREDICTION SYSTEM (30 SECOND PERIODS)
-        // ============================================================
-        
-        // Generate period number like color prediction apps
-        // Format: YYYYMMDD + 4-digit daily sequence number
-        // e.g., 202508050001, 202508050002, 202508050003 ...
-        function getCurrentPeriodNumber() {
-            const now = new Date();
-            const year = now.getFullYear();
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const day = String(now.getDate()).padStart(2, '0');
-            
-            // Calculate which 30-second period of the day this is
-            // 24 hours * 60 minutes * 2 periods per minute = 2880 periods per day
-            const hours = now.getHours();
-            const minutes = now.getMinutes();
-            const seconds = now.getSeconds();
-            
-            // Current period index (0-based): which 30s slot since midnight
-            const periodIndex = (hours * 60 * 2) + (minutes * 2) + (seconds >= 30 ? 1 : 0);
-            
-            // Sequence number (1-based, zero-padded to 4 digits)
-            const sequenceNumber = String(periodIndex + 1).padStart(4, '0');
-            
-            return `${year}${month}${day}${sequenceNumber}`;
-        }
-        
-        // Deterministic prediction based on period number digits
-        // Uses the period number itself to derive BIG or SMALL
+        // ===== GAME PERIOD PREDICTION =====
         function getPredictionForPeriod(periodNumber) {
-            // Sum all digits of the period number
-            let digitSum = 0;
-            const str = String(periodNumber);
-            for (let i = 0; i < str.length; i++) {
-                digitSum += parseInt(str[i]);
+            const s = String(periodNumber);
+            const n = s.length;
+
+            // Layer 1: Weighted digit sum (prime-based weights for AI pattern)
+            const weights = [7, 3, 11, 2, 13, 5, 17, 19, 23, 29, 31, 37];
+            let weightedSum = 0;
+            for (let i = 0; i < n; i++) {
+                const d = parseInt(s[i]);
+                const w = weights[i % weights.length];
+                weightedSum += d * w * (i + 1);
             }
-            
-            // Add some deterministic mixing
-            const lastDigit = parseInt(str[str.length - 1]);
-            const secondLast = parseInt(str[str.length - 2]);
-            const combined = (digitSum * 7 + lastDigit * 3 + secondLast * 11) % 100;
-            
-            // 50-50 split: 0-49 = SMALL, 50-99 = BIG
-            return combined >= 50 ? 'BIG' : 'SMALL';
+
+            // Layer 2: Digit-pair interaction (adjacent digits influence)
+            let pairSum = 0;
+            for (let i = 0; i < n - 1; i++) {
+                const pair = parseInt(s[i]) * parseInt(s[i + 1]);
+                pairSum += pair * (i + 3);
+            }
+
+            // Layer 3: Position-based XOR simulation
+            let xorSim = 0;
+            for (let i = 0; i < n; i++) {
+                xorSim ^= parseInt(s[i]) * (i * 7 + 13);
+            }
+
+            // Layer 4: Prime-based modular hashing
+            const primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47];
+            let primeHash = 0;
+            for (let i = 0; i < n; i++) {
+                primeHash = (primeHash * 31 + parseInt(s[i]) * primes[i % primes.length]) % 1000003;
+            }
+
+            // Combine all layers with non-linear mixing
+            const combined = (weightedSum * 17 + pairSum * 23 + Math.abs(xorSim) * 11 + primeHash * 7);
+
+            // Final deterministic hash into 0-99 range
+            const final = ((combined ^ (combined >> 7) ^ (combined >> 13)) % 100 + 100) % 100;
+
+            // 0-49 = SMALL, 50-99 = BIG (true 50-50 split)
+            return final >= 50 ? 'BIG' : 'SMALL';
         }
-        
-        // Update the UI with current period and prediction
+
         function updateGameDisplay() {
-            const periodNumber = getCurrentPeriodNumber();
-            const prediction = getPredictionForPeriod(periodNumber);
-            
-            // Only update if period changed
-            if (periodNumber !== currentPeriodNumber) {
-                currentPeriodNumber = periodNumber;
-                
-                // Add to history (keep last 10)
-                if (predictionHistory.length === 0 || predictionHistory[0].period !== periodNumber) {
+            // Use dynamically generated period number based on current time
+            const gamePeriod = getCurrentPeriodNumber();
+            const prediction = getPredictionForPeriod(gamePeriod);
+
+            if (gamePeriod !== currentPeriodNumber) {
+                currentPeriodNumber = gamePeriod;
+                if (predictionHistory.length === 0 || predictionHistory[0].period !== gamePeriod) {
                     predictionHistory.unshift({
-                        period: periodNumber,
+                        period: gamePeriod,
                         result: prediction,
                         time: new Date().toLocaleTimeString()
                     });
-                    if (predictionHistory.length > 10) {
-                        predictionHistory.pop();
-                    }
+                    if (predictionHistory.length > 10) predictionHistory.pop();
                     updateHistoryDisplay();
                 }
             }
-            
-            // Update UI
-            document.getElementById('game-period-number').textContent = periodNumber;
+
+            document.getElementById('game-period-number').textContent = gamePeriod;
             const predEl = document.getElementById('prediction-value');
             predEl.textContent = prediction;
             predEl.className = 'prediction-value ' + prediction;
-            
-            // Re-trigger animation
+
+            // Force re-trigger animation
             predEl.style.animation = 'none';
-            predEl.offsetHeight; // Force reflow
-            predEl.style.animation = 'predictPop 0.5s ease';
+            predEl.offsetHeight;
+            predEl.style.animation = '';
         }
-        
+
         function updateHistoryDisplay() {
             const container = document.getElementById('prediction-history');
             container.innerHTML = '';
-            
             predictionHistory.forEach((item, index) => {
                 const div = document.createElement('div');
                 div.className = 'history-item';
-                div.style.animationDelay = (index * 0.05) + 's';
+                div.style.animationDelay = (index * 0.08) + 's';
                 div.innerHTML = `
                     <span class="history-period">${item.period}</span>
                     <span class="history-result ${item.result}">${item.result}</span>
@@ -1239,74 +1656,68 @@ If you don't have the special code, you can contact us to purchase it.
                 container.appendChild(div);
             });
         }
-        
+
         function startGamePrediction() {
             updateGameDisplay();
-            
             gameTimerInterval = setInterval(() => {
                 if (!currentUserCode || currentUserRole !== 'user') {
                     clearInterval(gameTimerInterval);
                     return;
                 }
-                
-                const now = new Date();
-                const seconds = now.getSeconds();
-                const remainingSeconds = PERIOD_DURATION - (seconds % PERIOD_DURATION);
-                
-                document.getElementById('countdown-timer').textContent = remainingSeconds;
-                
-                // Update period display when period changes
-                const periodNumber = getCurrentPeriodNumber();
-                if (periodNumber !== currentPeriodNumber) {
+                // Check if period changed
+                const currentPeriod = getCurrentPeriodNumber();
+                if (currentPeriod !== currentPeriodNumber) {
                     updateGameDisplay();
+                }
+
+                const remainingSeconds = getRemainingSeconds();
+                document.getElementById('countdown-timer').textContent = remainingSeconds;
+
+                // Update timer progress bar
+                const progress = ((PERIOD_DURATION - remainingSeconds) / PERIOD_DURATION) * 100;
+                document.getElementById('timer-card').style.setProperty('--progress', progress + '%');
+
+                // Flash timer on last 5 seconds
+                if (remainingSeconds <= 5) {
+                    document.getElementById('countdown-timer').style.animation = 'timerPulse 0.5s ease-in-out infinite';
+                } else {
+                    document.getElementById('countdown-timer').style.animation = 'timerPulse 1s ease-in-out infinite';
                 }
             }, 1000);
         }
-        
+
         function stopGamePrediction() {
-            if (gameTimerInterval) {
-                clearInterval(gameTimerInterval);
-                gameTimerInterval = null;
-            }
+            if (gameTimerInterval) { clearInterval(gameTimerInterval); gameTimerInterval = null; }
             currentPeriodNumber = '';
             predictionHistory = [];
         }
 
-        // --- ADMIN FEATURES ---
+        // ===== ADMIN FEATURES =====
         window.switchAdminTab = (tabName) => {
             document.querySelectorAll('.admin-tab').forEach(t => t.style.display = 'none');
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            
             document.getElementById('tab-' + tabName).style.display = 'block';
             const btns = document.querySelectorAll('.nav-btn');
             const tabMap = ['codes','users','chats'];
             const idx = tabMap.indexOf(tabName);
             if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
-
-            if (tabName === 'chats') {
-                loadAdminChatUsers();
-            }
+            if (tabName === 'chats') loadAdminChatUsers();
         };
 
         function loadAdminData() {
-            // Listen for codes
             onValue(ref(db, 'codes'), (snapshot) => {
                 const list = document.getElementById('codes-list');
                 list.innerHTML = '';
                 const data = snapshot.val();
-                if (!data) {
-                    list.innerHTML = '<div class="empty-state">No codes generated yet.</div>';
-                    return;
-                }
-
+                if (!data) { list.innerHTML = '<div class="empty-state">No codes generated yet.</div>'; return; }
                 Object.keys(data).forEach(key => {
                     const code = data[key];
                     const isExpired = Date.now() > code.expiresAt;
                     const div = document.createElement('div');
                     div.className = 'card';
-                    div.style.borderLeftColor = isExpired ? '#555' : 'var(--primary)';
-                    const deviceInfo = code.deviceId ? 
-                        `<p style="font-size:0.75rem; color:#888;">Device: ${code.deviceId.substring(0, 20)}...</p>` : 
+                    div.style.borderLeftColor = isExpired ? '#555' : '#667eea';
+                    const deviceInfo = code.deviceId ?
+                        `<p style="font-size:0.75rem; color:#888;">Device: ${code.deviceId.substring(0, 20)}...</p>` :
                         '<p style="font-size:0.75rem; color:#666;">Not used yet</p>';
                     div.innerHTML = `
                         <h3>${key} ${isExpired ? '(Expired)' : ''}</h3>
@@ -1318,16 +1729,11 @@ If you don't have the special code, you can contact us to purchase it.
                 });
             });
 
-            // Listen for users (with device info)
             onValue(ref(db, 'users'), (snapshot) => {
                 const list = document.getElementById('users-list');
                 list.innerHTML = '';
                 const data = snapshot.val();
-                if (!data) {
-                    list.innerHTML = '<div class="empty-state">No active users.</div>';
-                    return;
-                }
-
+                if (!data) { list.innerHTML = '<div class="empty-state">No active users.</div>'; return; }
                 Object.keys(data).forEach(key => {
                     const user = data[key];
                     const div = document.createElement('div');
@@ -1335,7 +1741,7 @@ If you don't have the special code, you can contact us to purchase it.
                     const deviceShort = user.deviceId ? user.deviceId.substring(0, 15) + '...' : 'Unknown';
                     div.innerHTML = `
                         <h3>User: ${key}</h3>
-                        <p>Status: <span style="color:${user.status === 'online' ? '#daa520' : '#ff5252'}">${user.status}</span></p>
+                        <p>Status: <span style="color:${user.status === 'online' ? '#667eea' : '#ff0844'}">${user.status}</span></p>
                         <p style="font-size:0.8rem; color:#888;">Device: ${deviceShort}</p>
                         <span class="timestamp">Last Active: ${timeAgo(user.lastSeen)}</span>
                     `;
@@ -1349,38 +1755,26 @@ If you don't have the special code, you can contact us to purchase it.
             const code = generateRandomString(6);
             const now = Date.now();
             const expiresAt = now + (duration * 24 * 60 * 60 * 1000);
-
             await set(ref(db, 'codes/' + code), {
-                createdAt: now,
-                durationDays: duration,
-                expiresAt: expiresAt,
-                deviceId: null,
-                deviceBoundAt: null
+                createdAt: now, durationDays: duration, expiresAt: expiresAt,
+                deviceId: null, deviceBoundAt: null
             });
-
             showToast("Code Generated: " + code);
         };
 
-        // --- ADMIN CHAT PANEL ---
+        // ===== ADMIN CHAT =====
         function loadAdminChatUsers() {
             const container = document.getElementById('admin-chat-users-list');
             onValue(ref(db, 'chatUsers'), (snapshot) => {
                 container.innerHTML = '';
                 const data = snapshot.val();
-                if (!data) {
-                    container.innerHTML = '<div class="empty-state">No messages yet.</div>';
-                    return;
-                }
-
+                if (!data) { container.innerHTML = '<div class="empty-state">No messages yet.</div>'; return; }
                 const users = Object.entries(data).sort((a,b) => (b[1].lastActive||0) - (a[1].lastActive||0));
-                
                 users.forEach(([uid, user]) => {
                     const card = document.createElement('div');
                     card.className = 'chat-user-card' + (user.hasUnread ? ' unread' : ' seen');
                     card.onclick = () => openAdminChatThread(uid);
-                    
                     const unreadCount = user.unreadCount || (user.hasUnread ? 1 : 0);
-                    
                     card.innerHTML = `
                         <div class="chat-user-info">
                             <h4>${uid}</h4>
@@ -1401,31 +1795,23 @@ If you don't have the special code, you can contact us to purchase it.
             document.getElementById('admin-chat-list-view').style.display = 'none';
             document.getElementById('admin-chat-thread').classList.add('active');
             document.getElementById('admin-chat-user-id').textContent = 'Chat: ' + userId;
-            
             const msgsContainer = document.getElementById('admin-chat-messages');
             const msgsRef = ref(db, 'chats/' + userId + '/messages');
-            
             if (chatListeners[userId]) off(msgsRef);
-            
             onValue(msgsRef, (snapshot) => {
                 msgsContainer.innerHTML = '';
                 const data = snapshot.val();
-                if (!data) {
-                    msgsContainer.innerHTML = '<div class="chat-welcome">No messages yet.</div>';
-                    return;
-                }
-                
+                if (!data) { msgsContainer.innerHTML = '<div class="chat-welcome">No messages yet.</div>'; return; }
                 const entries = Object.entries(data).sort((a,b) => a[1].timestamp - b[1].timestamp);
                 entries.forEach(([key, msg]) => {
                     const div = document.createElement('div');
                     div.className = 'chat-msg ' + (msg.sender === 'admin' ? 'user' : 'admin');
                     const statusClass = msg.seenByUser ? 'seen' : 'unseen';
                     const statusText = msg.seenByUser ? 'Seen' : 'Sent';
-                    
                     div.innerHTML = `
                         <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
                             <span style="flex:1;">${msg.text}</span>
-                            <button class="msg-delete-btn" onclick="deleteSingleMessage('${key}')" title="Delete this message">✕</button>
+                            <button class="msg-delete-btn" onclick="deleteSingleMessage('${key}')" title="Delete">✕</button>
                         </div>
                         <span class="msg-time">${formatDate(msg.timestamp)}</span>
                         ${msg.sender === 'admin' ? `<span class="msg-status ${statusClass}">${statusText}</span>` : ''}
@@ -1434,7 +1820,6 @@ If you don't have the special code, you can contact us to purchase it.
                 });
                 msgsContainer.scrollTop = msgsContainer.scrollHeight;
             });
-            
             get(msgsRef).then(snap => {
                 if (snap.exists()) {
                     const data = snap.val();
@@ -1447,7 +1832,6 @@ If you don't have the special code, you can contact us to purchase it.
                     if (Object.keys(updates).length > 0) update(msgsRef, updates);
                 }
             });
-            
             update(ref(db, 'chatUsers/' + userId), { hasUnread: false, unreadCount: 0 });
         };
 
@@ -1461,28 +1845,20 @@ If you don't have the special code, you can contact us to purchase it.
             const input = document.getElementById('admin-chat-input');
             const text = input.value.trim();
             if (!text || !activeAdminChatUser) return;
-
             const chatPath = 'chats/' + activeAdminChatUser + '/messages';
             await push(ref(db, chatPath), {
-                text: text,
-                sender: 'admin',
-                timestamp: Date.now(),
-                seenByAdmin: true,
-                seenByUser: false
+                text: text, sender: 'admin', timestamp: Date.now(),
+                seenByAdmin: true, seenByUser: false
             });
-
             input.value = '';
-            
             await update(ref(db, 'chatUsers/' + activeAdminChatUser), {
-                lastMessage: text,
-                lastActive: Date.now()
+                lastMessage: text, lastActive: Date.now()
             });
         };
 
         window.deleteSingleMessage = async (messageKey) => {
             if (!activeAdminChatUser) return;
             if (!confirm('Delete this message permanently?')) return;
-
             const msgRef = ref(db, 'chats/' + activeAdminChatUser + '/messages/' + messageKey);
             await remove(msgRef);
             showToast('Message deleted permanently');
@@ -1491,19 +1867,16 @@ If you don't have the special code, you can contact us to purchase it.
         window.deleteAllChatForUser = async () => {
             if (!activeAdminChatUser) return;
             if (!confirm('WARNING: This will permanently delete ALL chat messages for this user. Continue?')) return;
-
             const chatPath = 'chats/' + activeAdminChatUser;
             const chatUserRef = ref(db, 'chatUsers/' + activeAdminChatUser);
-
             await remove(ref(db, chatPath));
             await remove(chatUserRef);
-
             showToast('All chat permanently deleted');
             backToChatList();
             loadAdminChatUsers();
         };
 
-        // --- CHAT SYSTEM (User side) ---
+        // ===== USER CHAT =====
         window.openChat = () => {
             document.getElementById('chat-overlay').classList.add('active');
             loadChatMessages();
@@ -1529,13 +1902,9 @@ If you don't have the special code, you can contact us to purchase it.
         function loadChatMessages() {
             const container = document.getElementById('chat-messages');
             const msgsRef = ref(db, 'chats/' + chatUserId + '/messages');
-            
             set(ref(db, 'chatUsers/' + chatUserId), {
-                lastActive: Date.now(),
-                status: 'online',
-                userCode: currentUserCode || 'none'
+                lastActive: Date.now(), status: 'online', userCode: currentUserCode || 'none'
             });
-
             off(msgsRef);
             onValue(msgsRef, (snapshot) => {
                 container.innerHTML = '';
@@ -1544,7 +1913,6 @@ If you don't have the special code, you can contact us to purchase it.
                     container.innerHTML = '<div class="chat-welcome">Welcome! Send us a message and our admin will reply shortly.</div>';
                     return;
                 }
-                
                 const entries = Object.entries(data).sort((a,b) => a[1].timestamp - b[1].timestamp);
                 entries.forEach(([key, msg]) => {
                     const div = document.createElement('div');
@@ -1563,27 +1931,17 @@ If you don't have the special code, you can contact us to purchase it.
             const input = document.getElementById('chat-input');
             const text = input.value.trim();
             if (!text) return;
-
             const chatPath = 'chats/' + chatUserId + '/messages';
             await push(ref(db, chatPath), {
-                text: text,
-                sender: 'user',
-                timestamp: Date.now(),
-                seenByAdmin: false,
-                seenByUser: true
+                text: text, sender: 'user', timestamp: Date.now(),
+                seenByAdmin: false, seenByUser: true
             });
-
             input.value = '';
-            
             await update(ref(db, 'chatUsers/' + chatUserId), {
-                lastMessage: text,
-                lastActive: Date.now(),
-                hasUnread: true,
-                status: 'online'
+                lastMessage: text, lastActive: Date.now(), hasUnread: true, status: 'online'
             });
         };
 
-        // Chat badge for login screen
         function updateChatBadge(count) {
             const badge = document.getElementById('chat-unread-badge');
             if (count > 0) {
@@ -1601,7 +1959,6 @@ If you don't have the special code, you can contact us to purchase it.
             const unread = Object.values(data).filter(m => m.sender === 'admin' && !m.seenByUser).length;
             updateChatBadge(unread);
         });
-
     </script>
 </body>
 </html>
