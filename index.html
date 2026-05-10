@@ -13,6 +13,8 @@
             --text-main: #ffffff;
             --text-muted: #b0b0b0;
             --danger: #ff5252;
+            --big-color: #00e676;
+            --small-color: #ff5252;
         }
 
         * {
@@ -114,7 +116,7 @@
             border: 3px solid var(--primary);
             box-shadow: 0 0 15px rgba(218, 165, 32, 0.4);
             background: #1a1a1a;
-            display: none; /* shown if loads successfully */
+            display: none;
         }
         #app-logo.show {
             display: block;
@@ -167,36 +169,6 @@
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- User Screen: Only feed scrolls, not whole page --- */
-        #user-screen {
-            overflow: hidden;
-            padding: 0;
-        }
-        #user-screen > *:not(#signals-feed) {
-            flex-shrink: 0;
-        }
-        #user-screen .feed-header {
-            padding: 20px 20px 0 20px;
-            flex-shrink: 0;
-        }
-        #user-screen .feed-bottom {
-            padding: 0 20px 20px 20px;
-            flex-shrink: 0;
-        }
-        #signals-feed {
-            overflow-y: auto;
-            flex: 1;
-            padding: 0 20px;
-            min-height: 0;
-        }
-        #signals-feed::-webkit-scrollbar {
-            width: 4px;
-        }
-        #signals-feed::-webkit-scrollbar-thumb {
-            background: #444;
-            border-radius: 4px;
         }
 
         /* --- Forms & Inputs --- */
@@ -307,49 +279,6 @@
             display: none;
         }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        /* --- Auto Likes / Reactions --- */
-        .reactions-bar {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-top: 12px;
-            padding-top: 10px;
-            border-top: 1px solid #444;
-        }
-        .reaction-item {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            transition: transform 0.2s;
-            cursor: pointer;
-        }
-        .reaction-item.pop {
-            animation: popReact 0.4s ease;
-        }
-        @keyframes popReact {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.4); }
-            100% { transform: scale(1); }
-        }
-        .react-emoji { font-size: 1.1rem; }
-        .likes-count { color: #ff6b81; font-weight: bold; }
-
-        /* --- Post Line Animation --- */
-        .post-text {
-            line-height: 1.6;
-            overflow: hidden;
-        }
-        .post-text .line {
-            opacity: 0;
-            transform: translateX(-15px);
-            animation: lineSlideIn 0.5s ease forwards;
-        }
-        @keyframes lineSlideIn {
-            to { opacity: 1; transform: translateX(0); }
-        }
 
         /* --- Chat Button Animation --- */
         .chat-float-btn {
@@ -577,169 +506,195 @@
         .msg-status.seen { color: var(--primary); }
         .msg-status.unseen { color: #888; }
 
-        /* --- Likes Setting in Admin --- */
-        .likes-setting {
-            background: #252525;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            border: 1px solid #444;
+        /* ============================================================
+           GAME PERIOD PREDICTION STYLES - MAIN USER SCREEN
+           ============================================================ */
+        #user-screen {
+            overflow: hidden;
+            padding: 0;
         }
-        .likes-setting h4 { color: var(--primary); margin-bottom: 10px; font-size: 1rem; }
-        .likes-row {
+        
+        .game-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        .game-period-card {
+            background: linear-gradient(145deg, #1a1a1a, #252525);
+            border: 2px solid var(--primary);
+            border-radius: 16px;
+            padding: 25px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(218, 165, 32, 0.15);
+            animation: cardPulse 2s ease-in-out infinite;
+        }
+        @keyframes cardPulse {
+            0%, 100% { box-shadow: 0 0 30px rgba(218, 165, 32, 0.15); }
+            50% { box-shadow: 0 0 40px rgba(218, 165, 32, 0.3); }
+        }
+        
+        .game-period-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 10px;
+        }
+        
+        .game-period-number {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: var(--primary);
+            letter-spacing: 2px;
+            word-break: break-all;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .prediction-card {
+            background: linear-gradient(145deg, #1a1a1a, #252525);
+            border: 2px solid #333;
+            border-radius: 16px;
+            padding: 30px;
+            width: 100%;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .prediction-label {
+            font-size: 1rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+        }
+        
+        .prediction-value {
+            font-size: 3.5rem;
+            font-weight: bold;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            animation: predictPop 0.5s ease;
+        }
+        @keyframes predictPop {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .prediction-value.BIG {
+            color: var(--big-color);
+            text-shadow: 0 0 30px rgba(0, 230, 118, 0.4);
+        }
+        .prediction-value.SMALL {
+            color: var(--small-color);
+            text-shadow: 0 0 30px rgba(255, 82, 82, 0.4);
+        }
+        
+        .timer-card {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 15px 25px;
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 10px;
-        }
-        .likes-row label { flex: 1; margin: 0; }
-        .likes-row input { width: 80px; text-align: center; }
-
-        /* --- Colour Prediction Signal Styles --- */
-        .prediction-section {
-            margin-top: 20px;
-            border-top: 2px solid #333;
-            padding-top: 15px;
-        }
-        .prediction-toggle-btn {
-            background: linear-gradient(135deg, #00bfff, #1e90ff);
-            color: white;
-            font-weight: bold;
-            font-size: 1rem;
-            padding: 14px;
-            border-radius: 10px;
-            width: 100%;
-            border: none;
-            cursor: pointer;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-        .prediction-toggle-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 15px rgba(0, 191, 255, 0.4);
-        }
-        .prediction-container {
-            display: none;
-            background: #1a1a1a;
-            border-radius: 10px;
-            padding: 15px;
             border: 1px solid #333;
-            max-height: 350px;
+        }
+        
+        .timer-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        
+        .timer-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            font-family: 'Courier New', monospace;
+            min-width: 50px;
+        }
+        
+        .history-section {
+            width: 100%;
+            max-height: 200px;
             overflow-y: auto;
         }
-        .prediction-container.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
+        .history-section::-webkit-scrollbar {
+            width: 4px;
         }
-        .prediction-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #333;
+        .history-section::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 4px;
         }
-        .prediction-header h4 {
-            color: #00bfff;
-            font-size: 1rem;
+        
+        .history-title {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-align: center;
         }
-        .prediction-timer {
-            font-size: 0.8rem;
-            color: var(--primary);
-        }
-        .signal-list {
+        
+        .history-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
-        .signal-item {
+        
+        .history-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 14px;
+            padding: 8px 12px;
             background: #252525;
             border-radius: 8px;
-            font-size: 0.95rem;
-            border-left: 3px solid #555;
-            transition: all 0.2s ease;
-        }
-        .signal-item:hover {
-            background: #2e2e2e;
-            transform: translateX(5px);
-        }
-        .signal-period {
-            font-weight: bold;
-            color: var(--text-main);
-        }
-        .signal-result {
-            font-weight: bold;
-            padding: 4px 12px;
-            border-radius: 15px;
             font-size: 0.85rem;
+        }
+        
+        .history-period {
+            color: var(--text-muted);
+            font-family: 'Courier New', monospace;
+            font-size: 0.75rem;
+        }
+        
+        .history-result {
+            font-weight: bold;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
             text-transform: uppercase;
         }
-        .signal-result.big {
-            background: rgba(218, 165, 32, 0.2);
-            color: #daa520;
-            border: 1px solid rgba(218, 165, 32, 0.3);
+        .history-result.BIG {
+            background: rgba(0, 230, 118, 0.15);
+            color: var(--big-color);
         }
-        .signal-result.small {
-            background: rgba(255, 107, 129, 0.2);
-            color: #ff6b81;
-            border: 1px solid rgba(255, 107, 129, 0.3);
+        .history-result.SMALL {
+            background: rgba(255, 82, 82, 0.15);
+            color: var(--small-color);
         }
-        .signal-loading {
-            text-align: center;
-            color: var(--text-muted);
-            padding: 20px;
-            font-style: italic;
-        }
-        .prediction-update-soon {
-            text-align: center;
-            color: #00bfff;
-            font-size: 1.1rem;
-            padding: 15px;
-            font-weight: bold;
-        }
-
-        /* --- Like Code Input --- */
-        .like-code-section {
-            margin-top: 12px;
-            padding-top: 12px;
-            border-top: 1px solid #444;
-        }
-        .like-code-input-row {
+        
+        .user-info-bar {
             display: flex;
-            gap: 8px;
+            justify-content: space-between;
             align-items: center;
+            padding: 12px 20px;
+            background: linear-gradient(45deg, #000, #1a1a1a);
+            border-bottom: 1px solid #333;
+            flex-shrink: 0;
         }
-        .like-code-input-row input {
-            flex: 1;
-            margin-bottom: 0;
-            font-size: 0.9rem;
-            padding: 8px 10px;
-        }
-        .like-code-input-row button {
-            width: auto;
-            padding: 8px 16px;
-            font-size: 0.85rem;
-        }
-        .like-btn {
-            background: linear-gradient(135deg, #ff4757, #ff6b81);
-            color: white;
-            margin-top: 8px;
-        }
-        .like-btn:disabled {
-            background: #555;
-            color: #888;
-            cursor: not-allowed;
-        }
-        .user-liked-tag {
-            color: #daa520;
+        .user-info-bar span {
             font-size: 0.8rem;
-            margin-top: 5px;
+            color: var(--text-muted);
+        }
+        .user-info-bar #session-timer {
+            color: var(--primary);
+            font-size: 0.75rem;
         }
 
         /* Hide login chat on non-login screens */
@@ -748,6 +703,23 @@
         }
         #login-screen.active ~ .login-chat-btn {
             display: flex;
+        }
+
+        /* Device lock warning */
+        .device-warning {
+            background: rgba(255, 82, 82, 0.1);
+            border: 1px solid var(--danger);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+            color: var(--danger);
+            font-size: 0.85rem;
+            text-align: center;
+            display: none;
+        }
+        .device-warning.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
         }
     </style>
 <base target="_blank">
@@ -781,10 +753,13 @@
                 <input type="text" id="login-code" placeholder="Ex: 1234-ABCD">
             </div>
             <button onclick="handleLogin()">Login Now</button>
+            <div id="device-warning" class="device-warning">
+                This code is already being used on another device!
+            </div>
             <p style="text-align: center; margin-top: 15px; font-size: 0.8rem; color: #666;">
                This is an all-in-one color prediction app. It is intended for users aged 18+ only and is meant for educational purposes only.
 
-If you don’t have the special code, you can contact us to purchase it.
+If you don't have the special code, you can contact us to purchase it.
             </p>
         </div>
 
@@ -820,9 +795,7 @@ If you don’t have the special code, you can contact us to purchase it.
         <div id="admin-screen" class="screen">
             <div class="admin-nav">
                 <button class="nav-btn active" onclick="switchAdminTab('codes')">Codes</button>
-                <button class="nav-btn" onclick="switchAdminTab('post')">Post Signal</button>
                 <button class="nav-btn" onclick="switchAdminTab('users')">Users</button>
-                <button class="nav-btn" onclick="switchAdminTab('likes')">Likes</button>
                 <button class="nav-btn" onclick="switchAdminTab('chats')">Chats</button>
             </div>
 
@@ -846,66 +819,11 @@ If you don’t have the special code, you can contact us to purchase it.
                 </div>
             </div>
 
-            <!-- Tab: Post Signal -->
-            <div id="tab-post" class="admin-tab" style="display: none;">
-                <h3>Send Signal</h3>
-                <div class="form-group" style="margin-top: 15px;">
-                    <label>Message</label>
-                    <textarea id="signal-msg" rows="4" placeholder="Type your signal here..."></textarea>
-                </div>
-                <button onclick="postSignal()">Post Now (Auto Delete at Midnight)</button>
-                
-                <div style="margin-top: 30px;">
-                    <h4>Current Active Post</h4>
-                    <div id="admin-posts-list"></div>
-                </div>
-            </div>
-
             <!-- Tab: Users -->
             <div id="tab-users" class="admin-tab" style="display: none;">
                 <h3>Active Users</h3>
-                <p style="font-size: 0.8rem; color: #888; margin-bottom: 10px;">Users currently logged in with valid codes.</p>
+                <p style="font-size: 0.8rem; color: #888; margin-bottom: 10px;">Users currently logged in with valid codes & device info.</p>
                 <div id="users-list"></div>
-            </div>
-
-            <!-- Tab: Auto Likes Setting -->
-            <div id="tab-likes" class="admin-tab" style="display: none;">
-                <h3>Auto Likes Settings</h3>
-                <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">Set default fake likes count for new posts.</p>
-                
-                <div class="likes-setting">
-                    <h4>Default Auto Likes</h4>
-                    <div class="likes-row">
-                        <label>Number of Likes:</label>
-                        <input type="number" id="auto-likes-count" min="0" max="500" value="12">
-                    </div>
-                    <div class="likes-row">
-                        <label>Love Reactions:</label>
-                        <input type="number" id="auto-loves-count" min="0" max="500" value="5">
-                    </div>
-                    <button onclick="saveAutoLikesSetting()">Save Settings</button>
-                </div>
-
-                <div class="likes-setting">
-                    <h4>Post Specific Likes</h4>
-                    <div class="likes-row">
-                        <label>Likes for next post:</label>
-                        <input type="number" id="post-likes-count" min="0" max="500" value="12">
-                    </div>
-                    <div class="likes-row">
-                        <label>Loves for next post:</label>
-                        <input type="number" id="post-loves-count" min="0" max="500" value="5">
-                    </div>
-                    <p style="font-size: 0.8rem; color: #888; margin-top:5px;">These will apply to the very next post only.</p>
-                </div>
-                
-                <div style="margin-top: 20px;">
-                    <h4>Current Saved Setting</h4>
-                    <div id="saved-likes-info" class="card">
-                        <p>Default Likes: <strong id="saved-default-likes">12</strong></p>
-                        <p>Default Loves: <strong id="saved-default-loves">5</strong></p>
-                    </div>
-                </div>
             </div>
 
             <!-- Tab: Admin Chat Panel -->
@@ -934,39 +852,44 @@ If you don’t have the special code, you can contact us to purchase it.
             <button class="danger" onclick="logout()" style="margin-top: auto;">Logout</button>
         </div>
 
-        <!-- SCREEN 3: USER PANEL -->
+        <!-- SCREEN 3: USER PANEL - GAME PERIOD PREDICTION -->
         <div id="user-screen" class="screen">
-            <div class="feed-header">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <h3>Live Signals</h3>
-                    <span id="session-timer" style="font-size: 0.8rem; color: var(--primary);">Checking...</span>
+            <div class="user-info-bar">
+                <span>Game Prediction</span>
+                <span id="session-timer">Checking...</span>
+            </div>
+            
+            <div class="game-container">
+                <!-- Game Period Card -->
+                <div class="game-period-card">
+                    <div class="game-period-label">Current Game Period</div>
+                    <div class="game-period-number" id="game-period-number">Loading...</div>
                 </div>
-                <div class="loader" id="feed-loader"></div>
-            </div>
-            <div id="signals-feed">
-                <div class="empty-state">Connecting to server...</div>
-            </div>
-
-            <!-- COLOUR PREDICTION API SIGNAL SECTION -->
-            <div class="feed-bottom">
-                <div class="prediction-section">
-                <button class="prediction-toggle-btn" onclick="togglePrediction()">
-                    🔮 Live Api- 24 Hours Signal
-                </button>
-                <div id="prediction-container" class="prediction-container">
-                    <div class="prediction-header">
-                        <h4>📊 Today's Signals</h4>
-                        <span id="prediction-timer" class="prediction-timer">Next: 60s</span>
+                
+                <!-- Prediction Card -->
+                <div class="prediction-card" id="prediction-card">
+                    <div class="prediction-label">Prediction Result</div>
+                    <div class="prediction-value" id="prediction-value">--</div>
+                </div>
+                
+                <!-- Countdown Timer -->
+                <div class="timer-card">
+                    <span class="timer-label">Next Period In:</span>
+                    <span class="timer-value" id="countdown-timer">30</span>
+                    <span class="timer-label">sec</span>
+                </div>
+                
+                <!-- History -->
+                <div class="history-section">
+                    <div class="history-title">Recent Predictions</div>
+                    <div class="history-list" id="prediction-history">
+                        <!-- History items will be added here -->
                     </div>
-                    <div id="signal-list" class="signal-list">
-                        <div class="signal-loading">Click to load signals...</div>
-                    </div>
                 </div>
             </div>
-
-                <div style="margin-top: auto; padding-top: 20px;">
-                    <button class="secondary" onclick="logout()">Logout</button>
-                </div>
+            
+            <div style="padding: 0 20px 20px 20px;">
+                <button class="secondary" onclick="logout()">Logout</button>
             </div>
         </div>
     </div>
@@ -995,12 +918,36 @@ If you don’t have the special code, you can contact us to purchase it.
         let sessionExpiryTime = 0;
         let chatUserId = null;
         let activeAdminChatUser = null;
-        let autoLikesSettings = { defaultLikes: 12, defaultLoves: 5 };
-        let tempPostLikes = { likes: 12, loves: 5 };
         let chatListeners = {};
-        let predictionActive = false;
-        let predictionInterval = null;
-        let userHasLiked = false;
+        
+        // Game prediction state
+        let gameTimerInterval = null;
+        let currentPeriodNumber = '';
+        let predictionHistory = [];
+        const PERIOD_DURATION = 30; // 30 seconds per period
+
+        // --- DEVICE FINGERPRINTING (1 Device Only System) ---
+        function generateDeviceId() {
+            let deviceId = localStorage.getItem('nrw_device_id');
+            if (!deviceId) {
+                // Generate a unique device ID based on browser info + random + timestamp
+                const navInfo = navigator.userAgent + navigator.language + screen.width + screen.height + screen.colorDepth;
+                const randomPart = Math.random().toString(36).substring(2, 15);
+                const timePart = Date.now().toString(36);
+                // Create a simple hash-like string
+                let hash = 0;
+                for (let i = 0; i < navInfo.length; i++) {
+                    const char = navInfo.charCodeAt(i);
+                    hash = ((hash << 5) - hash) + char;
+                    hash = hash & hash;
+                }
+                deviceId = 'dev_' + Math.abs(hash).toString(36) + '_' + randomPart + timePart;
+                localStorage.setItem('nrw_device_id', deviceId);
+            }
+            return deviceId;
+        }
+
+        const deviceId = generateDeviceId();
 
         // --- LOGO CONFIG: Replace with your GitHub raw logo URL ---
         const LOGO_URL = 'https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main/logo.png';
@@ -1066,18 +1013,7 @@ If you don’t have the special code, you can contact us to purchase it.
             return "Just now";
         }
 
-        // --- GET NEXT MIDNIGHT TIMESTAMP ---
-        function getNextMidnight() {
-            const now = new Date();
-            const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
-            return midnight.getTime();
-        }
-
-        function isMidnightPassed(expiryTimestamp) {
-            return Date.now() > expiryTimestamp;
-        }
-
-        // --- LOGIN & AUTH ---
+        // --- LOGIN & AUTH (WITH 1 DEVICE LOCK) ---
         window.handleLogin = async () => {
             const inputCode = document.getElementById('login-code').value.trim().toUpperCase();
             
@@ -1085,6 +1021,9 @@ If you don’t have the special code, you can contact us to purchase it.
                 showToast("Please enter a code");
                 return;
             }
+
+            // Hide any previous warning
+            document.getElementById('device-warning').classList.remove('show');
 
             if (inputCode === 'ADMIN') {
                 currentUserRole = 'admin';
@@ -1107,19 +1046,38 @@ If you don’t have the special code, you can contact us to purchase it.
                     return;
                 }
 
+                // --- 1 DEVICE ONLY CHECK ---
+                // If this code already has a deviceId assigned
+                if (codeData.deviceId && codeData.deviceId !== deviceId) {
+                    // Code is being used on a different device
+                    document.getElementById('device-warning').classList.add('show');
+                    showToast("Code already used on another device!");
+                    return;
+                }
+
+                // Store device binding in Firebase
+                await update(codeRef, {
+                    deviceId: deviceId,
+                    deviceBoundAt: now
+                });
+
                 currentUserCode = inputCode;
                 currentUserRole = 'user';
                 sessionExpiryTime = codeData.expiresAt;
                 
+                // Store device-code binding locally
+                localStorage.setItem('nrw_bound_code', inputCode);
+                
                 update(ref(db, 'users/' + inputCode), {
                     lastSeen: now,
-                    status: 'online'
+                    status: 'online',
+                    deviceId: deviceId
                 });
 
                 localStorage.setItem('safe_chat_code', inputCode);
                 switchScreen('user-screen');
-                loadUserFeed();
                 startSessionCheck();
+                startGamePrediction(); // Start the game period system
                 
             } else {
                 showToast("Invalid Code!");
@@ -1136,13 +1094,14 @@ If you don’t have the special code, you can contact us to purchase it.
                 update(ref(db, 'chatUsers/' + chatUserId), { status: 'offline', lastSeen: Date.now() });
             }
             localStorage.removeItem('safe_chat_code');
-            localStorage.removeItem('safe_chat_liked');
+            localStorage.removeItem('nrw_bound_code');
             currentUserCode = null;
             currentUserRole = null;
             activeAdminChatUser = null;
-            userHasLiked = false;
-            if (predictionInterval) clearInterval(predictionInterval);
+            if (gameTimerInterval) clearInterval(gameTimerInterval);
+            stopGamePrediction();
             document.getElementById('login-code').value = '';
+            document.getElementById('device-warning').classList.remove('show');
             switchScreen('login-screen');
             showToast("Logged Out");
             updateChatBadge(0);
@@ -1168,19 +1127,150 @@ If you don’t have the special code, you can contact us to purchase it.
                 } else {
                     const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
                     const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    timerEl.textContent = `Expires in: ${days}d ${hours}h`;
+                    timerEl.textContent = `Expires: ${days}d ${hours}h`;
                 }
             }, 1000);
         }
 
-        // Auto Login on Load
+        // Auto Login on Load (with device check)
         window.onload = () => {
             const savedCode = localStorage.getItem('safe_chat_code');
-            if (savedCode) {
+            const boundCode = localStorage.getItem('nrw_bound_code');
+            if (savedCode && boundCode === savedCode) {
                 document.getElementById('login-code').value = savedCode;
                 handleLogin();
             }
         };
+
+        // ============================================================
+        // GAME PERIOD PREDICTION SYSTEM (30 SECOND PERIODS)
+        // ============================================================
+        
+        // Generate period number like color prediction apps
+        // Format: YYYYMMDD + 4-digit daily sequence number
+        // e.g., 202508050001, 202508050002, 202508050003 ...
+        function getCurrentPeriodNumber() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            
+            // Calculate which 30-second period of the day this is
+            // 24 hours * 60 minutes * 2 periods per minute = 2880 periods per day
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            
+            // Current period index (0-based): which 30s slot since midnight
+            const periodIndex = (hours * 60 * 2) + (minutes * 2) + (seconds >= 30 ? 1 : 0);
+            
+            // Sequence number (1-based, zero-padded to 4 digits)
+            const sequenceNumber = String(periodIndex + 1).padStart(4, '0');
+            
+            return `${year}${month}${day}${sequenceNumber}`;
+        }
+        
+        // Deterministic prediction based on period number digits
+        // Uses the period number itself to derive BIG or SMALL
+        function getPredictionForPeriod(periodNumber) {
+            // Sum all digits of the period number
+            let digitSum = 0;
+            const str = String(periodNumber);
+            for (let i = 0; i < str.length; i++) {
+                digitSum += parseInt(str[i]);
+            }
+            
+            // Add some deterministic mixing
+            const lastDigit = parseInt(str[str.length - 1]);
+            const secondLast = parseInt(str[str.length - 2]);
+            const combined = (digitSum * 7 + lastDigit * 3 + secondLast * 11) % 100;
+            
+            // 50-50 split: 0-49 = SMALL, 50-99 = BIG
+            return combined >= 50 ? 'BIG' : 'SMALL';
+        }
+        
+        // Update the UI with current period and prediction
+        function updateGameDisplay() {
+            const periodNumber = getCurrentPeriodNumber();
+            const prediction = getPredictionForPeriod(periodNumber);
+            
+            // Only update if period changed
+            if (periodNumber !== currentPeriodNumber) {
+                currentPeriodNumber = periodNumber;
+                
+                // Add to history (keep last 10)
+                if (predictionHistory.length === 0 || predictionHistory[0].period !== periodNumber) {
+                    predictionHistory.unshift({
+                        period: periodNumber,
+                        result: prediction,
+                        time: new Date().toLocaleTimeString()
+                    });
+                    if (predictionHistory.length > 10) {
+                        predictionHistory.pop();
+                    }
+                    updateHistoryDisplay();
+                }
+            }
+            
+            // Update UI
+            document.getElementById('game-period-number').textContent = periodNumber;
+            const predEl = document.getElementById('prediction-value');
+            predEl.textContent = prediction;
+            predEl.className = 'prediction-value ' + prediction;
+            
+            // Re-trigger animation
+            predEl.style.animation = 'none';
+            predEl.offsetHeight; // Force reflow
+            predEl.style.animation = 'predictPop 0.5s ease';
+        }
+        
+        function updateHistoryDisplay() {
+            const container = document.getElementById('prediction-history');
+            container.innerHTML = '';
+            
+            predictionHistory.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = 'history-item';
+                div.style.animationDelay = (index * 0.05) + 's';
+                div.innerHTML = `
+                    <span class="history-period">${item.period}</span>
+                    <span class="history-result ${item.result}">${item.result}</span>
+                `;
+                container.appendChild(div);
+            });
+        }
+        
+        function startGamePrediction() {
+            updateGameDisplay();
+            
+            gameTimerInterval = setInterval(() => {
+                if (!currentUserCode || currentUserRole !== 'user') {
+                    clearInterval(gameTimerInterval);
+                    return;
+                }
+                
+                const now = new Date();
+                const seconds = now.getSeconds();
+                const remainingSeconds = PERIOD_DURATION - (seconds % PERIOD_DURATION);
+                
+                document.getElementById('countdown-timer').textContent = remainingSeconds;
+                
+                // Update period display when period changes
+                const periodNumber = getCurrentPeriodNumber();
+                if (periodNumber !== currentPeriodNumber) {
+                    updateGameDisplay();
+                }
+            }, 1000);
+        }
+        
+        function stopGamePrediction() {
+            if (gameTimerInterval) {
+                clearInterval(gameTimerInterval);
+                gameTimerInterval = null;
+            }
+            currentPeriodNumber = '';
+            predictionHistory = [];
+        }
 
         // --- ADMIN FEATURES ---
         window.switchAdminTab = (tabName) => {
@@ -1189,7 +1279,7 @@ If you don’t have the special code, you can contact us to purchase it.
             
             document.getElementById('tab-' + tabName).style.display = 'block';
             const btns = document.querySelectorAll('.nav-btn');
-            const tabMap = ['codes','post','users','likes','chats'];
+            const tabMap = ['codes','users','chats'];
             const idx = tabMap.indexOf(tabName);
             if (idx >= 0 && btns[idx]) btns[idx].classList.add('active');
 
@@ -1215,16 +1305,20 @@ If you don’t have the special code, you can contact us to purchase it.
                     const div = document.createElement('div');
                     div.className = 'card';
                     div.style.borderLeftColor = isExpired ? '#555' : 'var(--primary)';
+                    const deviceInfo = code.deviceId ? 
+                        `<p style="font-size:0.75rem; color:#888;">Device: ${code.deviceId.substring(0, 20)}...</p>` : 
+                        '<p style="font-size:0.75rem; color:#666;">Not used yet</p>';
                     div.innerHTML = `
                         <h3>${key} ${isExpired ? '(Expired)' : ''}</h3>
                         <p>Days: ${code.durationDays}</p>
+                        ${deviceInfo}
                         <span class="timestamp">Created: ${formatDate(code.createdAt)}</span>
                     `;
                     list.appendChild(div);
                 });
             });
 
-            // Listen for users
+            // Listen for users (with device info)
             onValue(ref(db, 'users'), (snapshot) => {
                 const list = document.getElementById('users-list');
                 list.innerHTML = '';
@@ -1238,53 +1332,15 @@ If you don’t have the special code, you can contact us to purchase it.
                     const user = data[key];
                     const div = document.createElement('div');
                     div.className = 'card';
+                    const deviceShort = user.deviceId ? user.deviceId.substring(0, 15) + '...' : 'Unknown';
                     div.innerHTML = `
                         <h3>User: ${key}</h3>
                         <p>Status: <span style="color:${user.status === 'online' ? '#daa520' : '#ff5252'}">${user.status}</span></p>
+                        <p style="font-size:0.8rem; color:#888;">Device: ${deviceShort}</p>
                         <span class="timestamp">Last Active: ${timeAgo(user.lastSeen)}</span>
                     `;
                     list.appendChild(div);
                 });
-            });
-
-            // Listen for current post (only 1 post)
-            onValue(ref(db, 'posts/current'), (snapshot) => {
-                const list = document.getElementById('admin-posts-list');
-                list.innerHTML = '';
-                const data = snapshot.val();
-                if(!data) {
-                    list.innerHTML = '<div class="empty-state">No active post. Admin post will appear here.</div>';
-                    return;
-                }
-                const div = document.createElement('div');
-                div.className = 'card';
-                const likes = data.likes || 0;
-                const loves = data.loves || 0;
-                const expiryText = data.expiryAt ? formatDate(data.expiryAt) : 'Not set';
-                div.innerHTML = `
-                    <p>${data.text}</p>
-                    <div class="reactions-bar">
-                        <div class="reaction-item"><span class="react-emoji">❤️</span><span class="likes-count">${likes}</span></div>
-                        <div class="reaction-item"><span class="react-emoji">😍</span><span>${loves}</span></div>
-                    </div>
-                    <span class="timestamp">Posted: ${formatDate(data.timestamp)}</span>
-                    <span class="timestamp" style="color: #00bfff;">Auto-delete at: ${expiryText}</span>
-                `;
-                list.appendChild(div);
-            });
-
-            // Load saved likes settings
-            get(ref(db, 'settings/autoLikes')).then(snap => {
-                if (snap.exists()) {
-                    autoLikesSettings = snap.val();
-                    document.getElementById('auto-likes-count').value = autoLikesSettings.defaultLikes || 12;
-                    document.getElementById('auto-loves-count').value = autoLikesSettings.defaultLoves || 5;
-                    document.getElementById('saved-default-likes').textContent = autoLikesSettings.defaultLikes;
-                    document.getElementById('saved-default-loves').textContent = autoLikesSettings.defaultLoves;
-                    tempPostLikes = { likes: autoLikesSettings.defaultLikes, loves: autoLikesSettings.defaultLoves };
-                    document.getElementById('post-likes-count').value = tempPostLikes.likes;
-                    document.getElementById('post-loves-count').value = tempPostLikes.loves;
-                }
             });
         }
 
@@ -1297,334 +1353,13 @@ If you don’t have the special code, you can contact us to purchase it.
             await set(ref(db, 'codes/' + code), {
                 createdAt: now,
                 durationDays: duration,
-                expiresAt: expiresAt
+                expiresAt: expiresAt,
+                deviceId: null,
+                deviceBoundAt: null
             });
 
             showToast("Code Generated: " + code);
         };
-
-        // --- AUTO LIKES SYSTEM ---
-        window.saveAutoLikesSetting = async () => {
-            const likes = parseInt(document.getElementById('auto-likes-count').value) || 0;
-            const loves = parseInt(document.getElementById('auto-loves-count').value) || 0;
-            
-            autoLikesSettings = { defaultLikes: likes, defaultLoves: loves };
-            tempPostLikes = { likes: likes, loves: loves };
-            
-            await set(ref(db, 'settings/autoLikes'), autoLikesSettings);
-            
-            document.getElementById('saved-default-likes').textContent = likes;
-            document.getElementById('saved-default-loves').textContent = loves;
-            document.getElementById('post-likes-count').value = likes;
-            document.getElementById('post-loves-count').value = loves;
-            
-            showToast("Auto likes settings saved!");
-        };
-
-        document.getElementById('post-likes-count')?.addEventListener('change', (e) => {
-            tempPostLikes.likes = parseInt(e.target.value) || 0;
-        });
-        document.getElementById('post-loves-count')?.addEventListener('change', (e) => {
-            tempPostLikes.loves = parseInt(e.target.value) || 0;
-        });
-
-        async function animateLikes(postId, targetLikes, targetLoves) {
-            const postRef = ref(db, 'posts/current');
-            let currentLikes = 0;
-            let currentLoves = 0;
-            const maxSteps = Math.max(targetLikes, targetLoves);
-            const stepDelay = Math.min(800, Math.max(200, 4000 / (maxSteps || 1)));
-            
-            for (let i = 0; i < maxSteps; i++) {
-                if (currentLikes < targetLikes) currentLikes++;
-                if (currentLoves < targetLoves && i % 2 === 0) currentLoves++;
-                
-                await update(postRef, { likes: currentLikes, loves: currentLoves });
-                await new Promise(r => setTimeout(r, stepDelay));
-            }
-            await update(postRef, { likes: targetLikes, loves: targetLoves });
-        }
-
-        // --- POST SIGNAL - Only 1 post, replaces old one ---
-        window.postSignal = async () => {
-            const msg = document.getElementById('signal-msg').value.trim();
-            if (!msg) {
-                showToast("Message cannot be empty");
-                return;
-            }
-
-            const now = Date.now();
-            const nextMidnight = getNextMidnight();
-            
-            const likesToUse = parseInt(document.getElementById('post-likes-count').value) || tempPostLikes.likes || 0;
-            const lovesToUse = parseInt(document.getElementById('post-loves-count').value) || tempPostLikes.loves || 0;
-
-            // Overwrite old post - only 1 post exists
-            await set(ref(db, 'posts/current'), {
-                text: msg,
-                timestamp: now,
-                expiryAt: nextMidnight,
-                likes: 0,
-                loves: 0,
-                likedBy: {}
-            });
-
-            document.getElementById('signal-msg').value = '';
-            showToast("Signal Posted! Old post replaced.");
-
-            if (likesToUse > 0 || lovesToUse > 0) {
-                animateLikes('current', likesToUse, lovesToUse);
-            }
-            
-            tempPostLikes = { likes: autoLikesSettings.defaultLikes, loves: autoLikesSettings.defaultLoves };
-            document.getElementById('post-likes-count').value = tempPostLikes.likes;
-            document.getElementById('post-loves-count').value = tempPostLikes.loves;
-        };
-
-        // --- USER FEATURES ---
-        function loadUserFeed() {
-            const feedContainer = document.getElementById('signals-feed');
-            const loader = document.getElementById('feed-loader');
-            
-            loader.style.display = 'block';
-
-            // Check if user already liked
-            userHasLiked = localStorage.getItem('safe_chat_liked') === 'true';
-
-            onValue(ref(db, 'posts/current'), (snapshot) => {
-                loader.style.display = 'none';
-                feedContainer.innerHTML = '';
-
-                const data = snapshot.val();
-                
-                // Check if post expired (midnight passed)
-                if (!data || (data.expiryAt && isMidnightPassed(data.expiryAt))) {
-                    // Auto delete expired post
-                    if (data && data.expiryAt && isMidnightPassed(data.expiryAt)) {
-                        remove(ref(db, 'posts/current'));
-                    }
-                    feedContainer.innerHTML = `
-                        <div class="card" style="border-left-color: #00bfff; text-align: center;">
-                            <h3 style="color: #00bfff;">📢 Update Soon</h3>
-                            <p style="margin-top: 10px;">Admin has not posted any signal yet.</p>
-                            <p style="font-size: 0.8rem; color: #666;">Please check back later.</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                const div = document.createElement('div');
-                div.className = 'card';
-                div.style.borderLeft = "none";
-                div.style.borderBottom = "2px solid var(--primary)";
-                
-                const likes = data.likes || 0;
-                const loves = data.loves || 0;
-                
-                const rawLines = data.text.split('\n');
-                let animatedText = '';
-                rawLines.forEach((line, i) => {
-                    const trimmed = line.trim();
-                    if (trimmed) {
-                        animatedText += `<div class="line" style="animation-delay: ${i * 0.1}s">${trimmed}</div>`;
-                    } else {
-                        animatedText += `<div class="line" style="animation-delay: ${i * 0.1}s">&nbsp;</div>`;
-                    }
-                });
-                if (!animatedText) animatedText = `<div class="line" style="animation-delay: 0s">${data.text}</div>`;
-                
-                // Like code input section
-                const likeSectionHTML = userHasLiked ? 
-                    `<p class="user-liked-tag">You have already liked this post</p>` :
-                    `<div class="like-code-section">
-                        <label style="font-size: 0.8rem; color: #888;">Enter Like Code to give 1 Like:</label>
-                        <div class="like-code-input-row">
-                            <input type="text" id="like-code-input" placeholder="Enter special code">
-                            <button onclick="verifyLikeCode()" style="width: auto; padding: 8px 12px; font-size: 0.8rem;">Verify</button>
-                        </div>
-                        <button id="real-like-btn" class="like-btn" onclick="giveUserLike()" disabled>❤️ Give Like (1)</button>
-                    </div>`;
-                
-                div.innerHTML = `
-                    <h3 style="color: var(--primary)">Special Paid Signal</h3>
-                    <div class="post-text" style="font-size: 1.1rem; color: white; margin-top:10px;">${animatedText}</div>
-                    <div class="reactions-bar">
-                        <div class="reaction-item ${likes > 0 ? 'pop' : ''}"><span class="react-emoji">❤️</span><span class="likes-count" id="display-likes">${likes}</span></div>
-                        <div class="reaction-item ${loves > 0 ? 'pop' : ''}"><span class="react-emoji">😍</span><span id="display-loves">${loves}</span></div>
-                    </div>
-                    <span class="timestamp">${formatDate(data.timestamp)}</span>
-                    <span class="timestamp" style="color: #00bfff;">Always 3 level maintain</span>
-                    ${likeSectionHTML}
-                `;
-                feedContainer.appendChild(div);
-            });
-        }
-
-        // --- VERIFY LIKE CODE ---
-        window.verifyLikeCode = async () => {
-            const inputCode = document.getElementById('like-code-input').value.trim().toUpperCase();
-            if (!inputCode) {
-                showToast("Please enter a code");
-                return;
-            }
-
-            // Check if code exists in database
-            const codeRef = ref(db, 'codes/' + inputCode);
-            const snapshot = await get(codeRef);
-
-            if (snapshot.exists()) {
-                const codeData = snapshot.val();
-                const now = Date.now();
-                
-                if (now > codeData.expiresAt) {
-                    showToast("Code has expired!");
-                    return;
-                }
-
-                // Valid code - enable like button
-                const likeBtn = document.getElementById('real-like-btn');
-                likeBtn.disabled = false;
-                likeBtn.textContent = "❤️ Give Like (1)";
-                showToast("Code verified! You can now like.");
-                
-                // Store that this user can like
-                window._likeCodeVerified = true;
-            } else {
-                showToast("Invalid Like Code!");
-                window._likeCodeVerified = false;
-            }
-        };
-
-        // --- GIVE USER LIKE ---
-        window.giveUserLike = async () => {
-            if (!window._likeCodeVerified) {
-                showToast("Please verify like code first!");
-                return;
-            }
-
-            if (userHasLiked) {
-                showToast("You have already liked this post!");
-                return;
-            }
-
-            const postRef = ref(db, 'posts/current');
-            const snapshot = await get(postRef);
-            
-            if (!snapshot.exists()) {
-                showToast("Post not found!");
-                return;
-            }
-
-            const postData = snapshot.val();
-            const currentLikes = (postData.likes || 0) + 1;
-            
-            await update(postRef, { likes: currentLikes });
-            
-            userHasLiked = true;
-            localStorage.setItem('safe_chat_liked', 'true');
-            
-            showToast("You liked the post! ❤️");
-            
-            // Refresh the feed to show updated state
-            loadUserFeed();
-        };
-
-        // --- COLOUR PREDICTION SIGNAL SYSTEM ---
-        window.togglePrediction = () => {
-            const container = document.getElementById('prediction-container');
-            predictionActive = !predictionActive;
-            
-            if (predictionActive) {
-                container.classList.add('active');
-                generateAndShowSignals();
-                startPredictionTimer();
-            } else {
-                container.classList.remove('active');
-                if (predictionInterval) clearInterval(predictionInterval);
-            }
-        };
-
-        function getBasePeriodNumber() {
-            // Use a fixed base date to keep period numbers continuous
-            const baseDate = new Date('2024-01-01').getTime();
-            const now = Date.now();
-            // Each period = 1 minute
-            const minutesSinceBase = Math.floor((now - baseDate) / (60 * 1000));
-            return 1000000000 + minutesSinceBase;
-        }
-
-        function generatePeriodSignals() {
-            const signals = [];
-            const now = new Date();
-            const currentMinutes = now.getHours() * 60 + now.getMinutes();
-            const basePeriod = getBasePeriodNumber();
-            
-            // Generate signals for next 60 periods (next 60 minutes)
-            for (let i = 0; i < 60; i++) {
-                const periodNum = basePeriod + i;
-                // Deterministic random based on period number + date for consistency
-                const dateSeed = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
-                const seed = periodNum * 9301 + 49297 + dateSeed;
-                const pseudoRandom = ((seed * 233280) % 1000000) / 1000000;
-                const result = pseudoRandom > 0.5 ? 'big' : 'small';
-                
-                const mins = (currentMinutes + i) % 1440;
-                const hr = Math.floor(mins / 60);
-                const mn = mins % 60;
-                const timeStr = `${hr.toString().padStart(2,'0')}:${mn.toString().padStart(2,'0')}`;
-                
-                signals.push({
-                    period: periodNum,
-                    result: result,
-                    time: timeStr,
-                    isCurrent: i === 0
-                });
-            }
-            
-            return signals;
-        }
-
-        function generateAndShowSignals() {
-            const list = document.getElementById('signal-list');
-            const signals = generatePeriodSignals();
-            
-            list.innerHTML = '';
-            signals.forEach((sig, index) => {
-                const item = document.createElement('div');
-                item.className = 'signal-item';
-                if (sig.isCurrent) {
-                    item.style.borderLeftColor = '#00bfff';
-                    item.style.background = '#1a1f2e';
-                }
-                item.innerHTML = `
-                    <span class="signal-period">${sig.period}</span>
-                    <span class="signal-result ${sig.result}">${sig.result}</span>
-                `;
-                list.appendChild(item);
-            });
-        }
-
-        function startPredictionTimer() {
-            const timerEl = document.getElementById('prediction-timer');
-            
-            if (predictionInterval) clearInterval(predictionInterval);
-            
-            predictionInterval = setInterval(() => {
-                if (!predictionActive) {
-                    clearInterval(predictionInterval);
-                    return;
-                }
-                
-                const now = new Date();
-                const secondsUntilNextMinute = 60 - now.getSeconds();
-                timerEl.textContent = `Next: ${secondsUntilNextMinute}s`;
-                
-                // Refresh signals every minute
-                if (now.getSeconds() === 0) {
-                    generateAndShowSignals();
-                }
-            }, 1000);
-        }
 
         // --- ADMIN CHAT PANEL ---
         function loadAdminChatUsers() {
@@ -1744,7 +1479,6 @@ If you don’t have the special code, you can contact us to purchase it.
             });
         };
 
-                // --- PERMANENTLY DELETE SINGLE MESSAGE ---
         window.deleteSingleMessage = async (messageKey) => {
             if (!activeAdminChatUser) return;
             if (!confirm('Delete this message permanently?')) return;
@@ -1754,7 +1488,6 @@ If you don’t have the special code, you can contact us to purchase it.
             showToast('Message deleted permanently');
         };
 
-        // --- PERMANENTLY DELETE ALL CHAT FOR A USER ---
         window.deleteAllChatForUser = async () => {
             if (!activeAdminChatUser) return;
             if (!confirm('WARNING: This will permanently delete ALL chat messages for this user. Continue?')) return;
